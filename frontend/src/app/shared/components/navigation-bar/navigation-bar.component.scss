@@ -1,0 +1,118 @@
+.nav_bar{
+    display:flex;
+    flex-direction:column;
+    background:white;
+    height:100%;
+    width:320px;
+    padding-left:30px;
+    padding-top:20px;
+    background: var(---ffffff) 0% 0% no-repeat padding-box;
+    box-shadow: 4px 3px 20px var(---e6e9f4);
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    box-shadow: 4px 3px 20px #E6E9F4;
+    opacity: 1;
+    height:100vh;
+  }
+  .wrap_rsw_logo{
+    width: 100px;
+  }
+  .nav_content{
+    height:100%;
+    margin-top:50px;
+    padding-right: 30px;
+  }
+  .nav_item{
+    display:flex;
+    flex-direction:row;
+    cursor:pointer;
+    height:55px;
+    align-items:center;
+    color: #7E84A3;
+  }
+  .nav_item.active {
+    /* background-color: red; */
+    color: #0090F3;
+  }
+  .circle_number{
+    border: 1px solid;
+    border-radius:50%;
+    width:25px;
+    height:25px;
+    display:block;
+    /* color: #A4A8BE; */
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:13px;
+  }
+  .circle_number.active {
+    background-color: #0090F3;
+    color: #fff;
+  }
+  .nav_item:hover .circle_number{
+     background:#0090F3 !important;
+    color:white !important;
+    border:none;
+  }
+  .nav_item:hover .item_text{
+    color:#0090F3 !important;
+  }
+  
+  .item_icon{
+    width:50px
+  }
+
+
+  .hidden_menu_container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    width: 100%;
+    padding-left: 50px;
+    max-height: 0;
+    overflow: hidden;
+    transition: .2s ease max-height;
+  }
+
+  .hidden_menu_container.active{
+    max-height: 80px;
+    transition: .2s ease max-height
+  }
+
+  .submenu{
+    display: flex;
+    align-items: center;
+    font: normal normal 500 13px/19px Open Sans;
+    letter-spacing: 0px;
+    color: #A4A8BE;
+    padding:5px ;
+  }
+
+  .submenu_text{
+    margin-right: auto;
+  }
+
+  .item_text{
+    font: normal normal 500 12px Open Sans;
+    letter-spacing: 1.6px;
+    margin-right: auto;
+  }
+
+  .item_arrow{
+    width: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    display: none;
+  }
+
+  .item_arrow.active {
+    display: inline-flex;
+  }
+
+  .arrow_icon{
+    display:block;
+    color:#0090F3;
+    font-size: 22px;
+  }
+  

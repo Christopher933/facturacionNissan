@@ -1,0 +1,149 @@
+//Set in CDN Style Guides
+$blue: #0090F3;
+$disabled: #A4A8BE;
+//
+main{
+    background-image: url('/assets/images/Nissan-Logo.png');
+    background-repeat: no-repeat;
+    background-size: 70%;
+    background-position: center;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+}
+.login{
+    width: 340px;
+    height: 370px;
+    padding: 26px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-sizing: border-box;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0px 20px 40px #d6d6d6;
+    &__header{
+        width: 100%;
+        height: auto;
+        padding-bottom: 12px;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+    }
+    &__header > h4{
+        font-size: 1.4em;
+        font-weight: 600;
+        color: $blue;
+    }
+    &__header > img{
+        width: auto;
+        height: 30px;
+        padding-left: 4px;
+        box-sizing: border-box;
+    }
+    &__inputs{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    &__user, &__pass{
+        margin-bottom: 12px;
+    }
+    &__btn{
+        margin-top: 12px;
+    }
+}
+//Set in CDN Style Guides
+input:focus{
+    outline: none;
+}
+.input_icon{
+    width: 100%;
+    height: auto;
+    position: relative;
+    input{
+        width: 100%;
+        height: 36px;
+        color: #7E84A3;
+        border: 1px solid #D5D7E3;
+        border-radius: 4px;
+        padding: 4px 16px 4px 36px;
+        font-size: 0.85em;
+        box-sizing: border-box;
+    }
+    input::placeholder{
+        color: #b4b4b4;
+    }
+    img{
+        width: 16px;
+        height: auto;
+        position: absolute;
+        top: 0;
+        left: 10px;
+        bottom: 0;
+        margin: auto;
+    }
+}
+.btn{
+    width: 100%;
+    height: 36px;
+    padding: 8px 16px;
+    font-size: 0.8em;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    &__primary{
+        background: $blue;
+        color: white;
+    }
+    &__disabled{
+        background: $disabled;
+    }
+}
+.button_loading{
+    width: 100%;
+    position: relative;
+    &__spinner{
+        width: auto;
+        height: 36px;
+        position: absolute;
+        left: 0;
+        right: 0;
+        margin: auto;
+    }
+}
+//
+
+.msg_box{
+    width: 450px;
+    height: auto;
+   
+    box-shadow: 0px 3px 6px #00000029;
+    padding: 20px 30px;
+    box-sizing: border-box;
+    border-radius: 6px;
+    margin-top: 14px;
+    text-align: center;
+    position: fixed;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    p{
+        font-size: 0.85em;
+        font-weight: 600;
+        text-align: center;
+        color: white;
+    }
+    &__error{
+        background: #f13535;
+    }
+    &__success{
+        background: #0090F3;
+    }
+}

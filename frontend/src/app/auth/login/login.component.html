@@ -1,0 +1,24 @@
+<main>
+    <form class="login" (ngSubmit)="loginAction()" [formGroup]="form">
+        <div class="login__header">
+            <h4>Login</h4>
+        </div>
+        <div class="login__inputs">
+            <div class="login__user input_icon">
+                <input type="text" placeholder="username" formControlName="user" required>
+                <img src="assets/icons/mail.svg" alt="">
+            </div>
+            <div class="login__pass input_icon">
+                <input type="password" placeholder="password" formControlName="pass" required>
+                <img src="assets/icons/lock.svg" alt="">
+            </div>
+        </div>
+        <div class="login__btn button_loading">
+            <img src="assets/loading_white.svg" class="button_loading__spinner" *ngIf="loading"/>
+            <button class="btn btn__primary" [class.btn__disabled]="loading"><span *ngIf="!loading">SIGN IN</span></button>
+        </div>
+    </form>
+</main>
+<div class="msg_box animate__animated animate__faster animate__fadeInUp" [class.msg_box__error]="show_error" [class.msg_box__success]="1" *ngIf="show_msg">
+    <p>{{msg_alert}}</p>
+</div>
