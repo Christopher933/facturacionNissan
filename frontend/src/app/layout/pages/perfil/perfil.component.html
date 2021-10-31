@@ -1,1 +1,68 @@
-<p>perfil works!</p>
+<div class = "main">
+<div class="section_container" >
+    <div class="section_title" *ngIf= "perfil.id_role==3">
+        <h1 class="main_title">{{ perfil.company_name }}</h1>
+    </div>
+    <form class="inputs_container"  [formGroup]="form_perfil" >
+        <div class="input_wrap" *ngIf= "perfil.id_role==3">
+            <span >RFC: </span>
+            <span>{{ perfil.rfc }}</span>
+        </div>
+        <div class="input_wrap" >
+          <span>User: </span>
+          <span>{{ perfil.user_name }}</span>
+      </div>
+        <div class="input_wrap">
+            <span >Rol: </span>
+            <span *ngIf="perfil.id_role==1">Administrador</span>
+            <span *ngIf="perfil.id_role==2">Gestor</span>
+            <span *ngIf="perfil.id_role==3">Proveedor</span>
+        </div>
+        <div class="input_wrap" *ngIf= "perfil.id_role==3">
+            <span class="input_label">Telefono</span>
+            <input class="actual_input" type="text" formControlName="phone" >
+          </div>
+          <div class="input_wrap">
+            <span class="input_label">Email</span>
+            <input class="actual_input" type="text"  formControlName= "email" >
+        </div>
+    </form>
+    <div class="buttons_container" *ngIf= "perfil.id_role==3">
+        <div  class="buttons_section">
+          <button class="btn btn--primary" (click)="updateProfile()">
+            <span>
+              Actualizar Datos
+            </span>
+          </button>
+        </div>
+      </div>  
+</div>
+
+<div class = "section_container_right">
+  <div class="item_file" (click) = "openFilesDialog('cuentas bancarias')">
+    <span class="material-icons-outlined item_icon">
+      account_balance
+    </span>
+    <div class = "item_file__title">
+      <span>Cuentas bancarias</span>
+    </div>
+  </div>
+  <div class="item_file" (click) = "openFilesDialog('cumplimiento del mes')">
+    <span class="material-icons-outlined item_icon">
+      task
+    </span>
+    <div class = "item_file__title">
+      <span>Cumplimiento del mes</span>
+    </div>
+  </div>
+  <div class="item_file" (click) = "openFilesDialog('cedula fiscal')">
+    <span class="material-icons-outlined item_icon">
+      gavel
+    </span>
+    <div class = "item_file__title">
+      <span>Cedula Fiscal</span>
+    </div>
+  </div>
+</div>
+
+</div>

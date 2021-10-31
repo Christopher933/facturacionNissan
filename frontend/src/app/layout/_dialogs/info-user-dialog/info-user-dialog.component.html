@@ -1,0 +1,91 @@
+<div class="dialog">
+    <div class="dialog__header">
+        <h2 class="dialog__title">
+            Datos de Usuario
+        </h2>
+        <div   class="close_dialog">
+            <span (click)="closeDialog()" class="material-icons-outlined pointer">
+                clear
+              </span>
+        </div>
+    </div>
+    <div class="card__body" [formGroup]="form_user">
+        <div class = wrapper_container>
+            <div class="form_group">
+                <div class="label_text">
+                    Nombre de Usuario
+                </div>
+                <input
+                formControlName = "user_name"
+                type= "text"
+                class="form_input">
+            </div>
+            <div class="form_group">
+                <div class="label_text">
+                    Correo
+                </div>
+                <input
+                formControlName = "email"
+                type= "text"
+                class="form_input">
+            </div>
+            <div class="form_group" *ngIf="info_user.id_role == 3">
+                <div class="label_text">
+                    Razon Social
+                </div>
+                <input
+                formControlName = "company_name"
+                type= "text"
+                class="form_input">
+            </div>
+            <div class="form_group" *ngIf="info_user.id_role == 3">
+                <div class="label_text">
+                    Telefono
+                </div>
+                <input
+                formControlName = "phone"
+                type= "text"
+                class="form_input">
+            </div>
+            <div class="form_group" *ngIf="info_user.id_role == 3">
+                <div class="label_text">
+                    RFC
+                </div>
+                <input
+                formControlName = "rfc"
+                type= "text"
+                class="form_input">
+            </div>
+            <div class="form_group">
+                <div class="label_text">
+                    Rol
+                </div>
+                <select name="" id="" class="form_input" formControlName = "id_role">
+                    <option value="1" *ngIf= "info_user.id_role == 1 || info_user.id_role == 2">Administrador</option>
+                    <option value="2" *ngIf= "info_user.id_role == 1 || info_user.id_role == 2">Gestor</option>
+                    <option value="3" *ngIf="info_user.id_role == 3">Proveedor</option>
+                </select>
+            </div>
+            <div class="form_group">
+                <div class="label_text">
+                    Status
+                </div>
+                <select name="" id="" class="form_input" formControlName = "status">
+                    <option value="1">Activo</option>
+                    <option value="0">Bloqueado</option>
+                </select>
+            </div>
+        </div>
+        <div class="dialog_footer">
+            <button 
+            [disabled]= "is_loading"
+            class="btn btn--mr-10" (click)="closeDialog()">Cerrar</button>
+            <button 
+            (click)="updateUser()"
+            [class.spinner]= "is_loading"
+            [disabled] = "is_loading"
+            class="btn btn--primary" >
+                 <span *ngIf="is_loading==false">Actualizar Datos</span> 
+            </button>
+        </div>
+    </div>

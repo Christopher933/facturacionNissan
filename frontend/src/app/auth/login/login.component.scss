@@ -3,9 +3,9 @@ $blue: #0090F3;
 $disabled: #A4A8BE;
 //
 main{
-    background-image: url('/assets/images/Nissan-Logo.png');
+    background-image: url('/assets/images/Fondo-100.png');
     background-repeat: no-repeat;
-    background-size: 70%;
+    background-size: 100%;
     background-position: center;
     width: 100%;
     min-height: 100vh;
@@ -24,7 +24,6 @@ main{
     box-sizing: border-box;
     background: white;
     border-radius: 8px;
-    box-shadow: 0px 20px 40px #d6d6d6;
     &__header{
         width: 100%;
         height: auto;

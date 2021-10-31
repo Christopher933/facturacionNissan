@@ -1,0 +1,124 @@
+.main{
+  display: flex;
+}
+
+.section_container{
+    display: flex;
+    flex-direction:column;
+    width:50%;
+    height:100%;
+    max-width:1400px;
+    padding-top:25px;
+  }
+  .main_title{
+    color: #00558F;
+    font-size: 30px;
+    margin-bottom: 0px;
+  }
+  .main_subtitle{
+    color:#7E84A3;
+    font-size:13px;
+  }
+  
+  .inputs_container{
+      margin-top:20px;
+      height:auto;
+      max-width: 1000px;
+      width:50%;
+      margin-bottom:10px;
+      display:grid;
+      grid-template-columns:1fr;
+    }
+
+.input_wrap{
+    margin-top:15px;
+    margin-bottom:15px;
+    width:100%;
+    height:auto;
+    color:#7e84a3;
+  }
+  .input_wrap:hover{
+     color:#0090F3
+  }
+  .input_wrap:hover .actual_input{
+     border: 1px solid #0090F3;
+  }
+  
+  .input_label{
+    font-size:12px;
+    display:block;
+    margin-bottom: 8px;
+  }
+
+  .actual_input{
+    width:100%;
+    background:white;
+    border: 1px solid #E6E9F4;
+    border-radius:4px;
+    padding:10px;
+  }
+
+  .buttons_container{
+    margin-top: auto;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    width:100%;
+    height:100px;
+  }
+
+  .img_arrow{
+    width: 24px;
+  }
+
+  .buttons_section{
+    display: flex;
+    width: 50%;
+  }
+
+  .buttons_container > div:nth-child(2){
+    justify-content: flex-end;
+  }
+
+  .section_container_right{
+    width: 50%;
+    padding-top: 50px;
+  }
+
+  .item_file{
+    width: 100%;
+    height: 100px;
+    margin-bottom: 30px;
+    border-radius: 4px;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: transform .4s; 
+  }
+
+  .item_file:hover{
+    transform: scale(1.05); 
+  }
+
+  .item_icon{
+    font-size: 50px;
+    color: white; 
+    margin-right: 30px;
+  }
+
+  .section_container_right > .item_file:first-child{
+    background: #00ced1;
+  }
+
+  .section_container_right > .item_file:nth-child(2){
+    background: #00bfff;
+  }
+
+  .section_container_right > .item_file:last-child{
+    background: #add8e6;
+  }
+
+  .item_file__title{
+    text-align: center;
+  }

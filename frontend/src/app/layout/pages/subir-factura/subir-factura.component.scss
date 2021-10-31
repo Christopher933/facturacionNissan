@@ -1,0 +1,124 @@
+.section_container{
+    display: flex;
+    flex-direction:column;
+    width:100%;
+    height:100%;
+    max-width:1400px;
+    padding-top:25px;
+  }
+  .main_title{
+    color: #00558F;
+    font-size: 30px;
+    margin-bottom: 0px;
+  }
+  .main_subtitle{
+    color:#7E84A3;
+    font-size:13px;
+  }
+  
+  .inputs_container{
+      margin-top:20px;
+      height:auto;
+      max-width: 1000px;
+      width:100%;
+      margin-bottom:10px;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      column-gap:20px
+    }
+    
+    .input_wrap{
+      margin-top:15px;
+      margin-bottom:15px;
+      width:100%;
+      height:auto;
+      color:#7e84a3;
+    }
+    .input_wrap:hover{
+       color:#0090F3
+    }
+    .input_wrap:hover .actual_input{
+       border: 1px solid #0090F3;
+    }
+    
+    .input_label{
+      font-size:12px;
+      display:block;
+      margin-bottom: 8px;
+    }
+  
+    .actual_input{
+      width:100%;
+      background:white;
+      border: 1px solid #E6E9F4;
+      border-radius:4px;
+      padding:10px;
+    }
+  
+    .error{
+      border-color: red;
+      color: red ;
+    }
+    .input_wrap:hover .actual_input.error{
+      border-color: red;
+    }
+  
+    .input_wrap.error:hover{
+      color:red;
+    }
+    
+    .multi_input{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      column-gap:10px
+    }
+  
+    .buttons_container{
+      margin-top: auto;
+      display: flex;
+      align-items: flex-end;
+      width:100%;
+      height:100px;
+    }
+  
+    .img_arrow{
+      width: 24px;
+    }
+  
+    .buttons_section{
+      display: flex;
+      width: 50%;
+    }
+  
+    .buttons_container > div:nth-child(2){
+      justify-content: flex-end;
+    }
+  
+    .previous_container{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font: normal normal normal 17px/24px Open Sans;
+      letter-spacing: 0.09px;
+      color: #7E84A3;
+      cursor: pointer;
+    }
+
+    .file_container{
+        background: #EDEEF6;
+        border-radius: 8px;
+        border: dotted 1px black;
+        height: 200px;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #0090F3;
+    }
+
+    .inputFile{
+        opacity: 0;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+    }

@@ -11,7 +11,7 @@ import { RequestService } from 'src/app/shared/services/request.service';
 })
 export class LoginComponent implements OnInit {
 
-  form!: FormGroup;
+  form: FormGroup;
   loading: boolean = false;
 
   //Message Alerts
@@ -54,17 +54,19 @@ export class LoginComponent implements OnInit {
     if(this.form.valid){
       this.loading = true;
       const data = {
-        User: this.form.value.user,
-        Pass: this.form.value.pass,
+        user_name: this.form.value.user,
+        password: this.form.value.pass,
       }
-      await this.request_service.reqPOST(`/log_in/`, data)
+      await this.request_service.reqPOST(`/auth`, data)
       .pipe(first()).subscribe(
         (data: any) => {
           this.loading = false;
           
-          var obj_storage = { 'token': data.systemUserId, 'role': data.title, 'name': data.userFullName };
-
+          var obj_storage = { 'token': data.id_user, 'role': data.id_role, 'name': data.user_name };
+          console.log(obj_storage)
           // Put the object into storage
+          this.request_service.filter_parameters.id_user = data.id_user;
+          this.request_service.filter_parameters.id_rol = data.id_rol;
           localStorage.setItem('session', JSON.stringify(obj_storage));
           this.router.navigate(['/layout']);
         },

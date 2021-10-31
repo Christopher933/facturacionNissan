@@ -1,0 +1,44 @@
+
+<div class="dialog">
+    <div class="dialog__header">
+        <h2 class="dialog__title">
+            Contrarecibo
+        </h2>
+        <div   class="close_dialog">
+            <span (click)="closeDialog()" class="material-icons-outlined pointer">
+                clear
+              </span>
+        </div>
+    </div>
+    <div class="card__body" [formGroup]= "form_contrarecibo" >
+        <div class="dialog_top">
+            <div class="form__group">
+                <div class="label_container text_label">
+                    Fecha promesa de pago
+                </div>
+                <input
+                type= "date"
+                formControlName= "promise_date"
+                class="form__control textarea_input">
+            </div>
+        </div>
+        <div class="dialog_footer">
+            <button 
+            [disabled]= "is_loading"
+            class="btn btn--mr-10" (click)="closeDialog()">Cerrar</button>
+            <button 
+            [class.spinner]= "is_loading"
+            [disabled] = "is_loading"
+            class="btn btn--primary"  
+            (click)="sendContrarecibo()">
+                 <span *ngIf="is_loading==false">Enviar Contrarecibo</span> 
+            </button>
+            <button 
+            *ngIf= "info_factura.id_contrarecibo != null"
+            class="btn btn--primary" 
+            [class.spinner]= "is_loading"
+            [disabled] = "is_loading" 
+            > <span  *ngIf="is_loading== false" (click)="resendContrarecibo()">Reenviar Correo</span> </button>
+        </div>
+    </div>
+</div>

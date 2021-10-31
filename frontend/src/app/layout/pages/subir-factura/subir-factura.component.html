@@ -1,1 +1,57 @@
-<p>subir-factura works!</p>
+<div class="section_container">
+    <div class="section_title">
+      <h1 class="main_title">Subir Factura</h1>
+      <span class="main_subtitle">Por favor llenar los siguientes datos</span>
+    </div>
+    <form class="inputs_container"  [formGroup]="form_factura">
+      <div class="input_wrap" [class.error]="f.fecha_emision.errors  && is_sumitted">
+        <span class="input_label">Fecha de emision <span *ngIf="f.fecha_emision.errors  && is_sumitted">*</span></span>
+        <input class="actual_input" type="date" formControlName="fecha_emision" [class.error]="f.fecha_emision.errors  && is_sumitted">
+      </div>
+      <div class="input_wrap" [class.error]="f.fecha_limite.errors  && is_sumitted">
+        <span class="input_label">Fecha limite de pago<span *ngIf="f.fecha_limite.errors  && is_sumitted">*</span></span>
+        <input class="actual_input" type="date" formControlName="fecha_limite" [class.error]="f.fecha_limite.errors  && is_sumitted">
+      </div>
+      <div class="input_wrap" [class.error]="f.folio.errors  && is_sumitted">
+        <span class="input_label">Folio<span *ngIf="f.folio.errors  && is_sumitted">*</span></span>
+        <input class="actual_input" type="text" formControlName="folio" [class.error]="f.folio.errors  && is_sumitted">
+      </div>
+      <div class="input_wrap" [class.error]="f.monto.errors  && is_sumitted">
+        <span class="input_label">Monto<span *ngIf="f.monto.errors  && is_sumitted">*</span></span>
+        <input class="actual_input" type="number" formControlName="monto" [class.error]="f.monto.errors  && is_sumitted">
+      </div>
+      <div class="input_wrap" [class.error]="f.moneda.errors  && is_sumitted">
+        <span class="input_label">Moneda<span *ngIf="f.moneda.errors  && is_sumitted">*</span></span>
+        <select class="actual_input" formControlName="moneda" [class.error]="f.moneda.errors  && is_sumitted">
+          <option value="" selected disabled>Selecciona Moneda</option>
+          <option value="pesos">Pesos</option>
+          <option value="dolares">Dolares</option>
+        </select>
+      </div>
+    </form>
+    <label class="file_container" for="inputFile" *ngIf="!f.pdf.value">
+        <input class="inputFile" type="file" id="inputFile" (change)="uploadArchive($event.target.files[0], 'pdf')" > 
+        <span class="inputFile_text">Carga o arrastra el archivo pdf</span>
+    </label>
+    <label class="file_container" for="inputFile" *ngIf="!f.xml.value && f.pdf.value">
+      <input class="inputFile" type="file" id="inputFile" (change)="uploadArchive($event.target.files[0], 'xml')"> 
+      <span class="inputFile_text">Carga o arrastra el archivo xml</span>
+  </label>
+    <div class="buttons_container">
+      <div class="buttons_section">
+        <span class="previous_container">
+          <img class="img_arrow" src="./assets/chevron_left_black_24dp.svg">
+          <span>
+            Previous Step
+          </span>
+        </span>
+      </div>
+      <div  class="buttons_section">
+        <button class="btn btn--primary" (click)="goSend()">
+          <span>
+            Subir Factura
+          </span>
+        </button>
+      </div>
+    </div>  
+  </div>

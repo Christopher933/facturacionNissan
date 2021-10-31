@@ -1,3 +1,5 @@
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+
 * {
     box-sizing: border-box;
     padding: 0;
@@ -21,18 +23,15 @@ button,
 select,
 textarea {
     outline: none;
+    text-decoration: none;
 }
 
 ::-webkit-scrollbar {
     /* width: 8px; */
     height: 10px;
-    width: 0;
-    background-color: #ccc;
+    width: 8px;
 }
 
-::-webkit-scrollbar-track {
-    background-color: transparent;
-}
 
 ::-webkit-scrollbar-thumb {
     height: 10px;
@@ -100,4 +99,120 @@ html, body { height: 100%; }
 
 .text--lg {
     font-size: 22px;
+}
+
+
+/* --- weight --- */
+
+.text--bold {
+    font-weight: 600;
+}
+
+.text--semi-bold {
+    font-weight: 600;
+}
+
+.text--weight-normal {
+    font-weight: 400;
+}
+
+
+/* --- margin --- */
+
+.text--ml-5 {
+    margin-left: 5px;
+}
+
+.text--mb-5 {
+    margin-bottom: 5px;
+}
+
+.text--mb-10 {
+    margin-bottom: 10px;
+}
+
+.text--mr-10 {
+    margin-right: 10px;
+}
+
+.text--mt-5 {
+    margin-top: 5px;
+}
+
+
+/* --- colors --- */
+
+.text--color-blue {
+    color: #00a2e5;
+}
+
+.text--color-dark-blue {
+    color: #255981;
+}
+
+.text--color-dark-blue:hover {
+    border-color: #255981;
+}
+
+.text--color-gray {
+    color: #7E84A3;
+}
+
+.text--color-light-gray {
+    color: #A4A8BE;
+}
+
+.text--color-orange {
+    color: #DD6B20;
+}
+
+.text--color-green {
+    color: #11C56B;
+}
+
+.text--color-red {
+    color: #E53E3E;
+}
+
+.text--color-white {
+    color: #fff;
+}
+
+.text--color-dark {
+    color: #131523;
+}
+
+.btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #EDEEF6;
+    color: #7E84A3;
+    /* padding: 6px 12px; */
+    padding: 8px 14px;
+    border-radius: 4px;
+    text-align: center;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    border: 2px solid transparent;
+    transition: .2s ease all;
+    cursor: pointer;
+    margin-left: 10px;
+    min-width: 90px;
+    min-height: 30px;
+}
+
+.btn--mr-10 {
+    margin-right: 10px;
+}
+
+.btn--primary {
+    background-color: #0090F3 !important;
+    color: #fff;
+}
+
+.btn-danger{
+    background: #FF3E56;
+    color: #fff;
 }

@@ -1,0 +1,195 @@
+<div class="section_container">
+    <div class="section_title">
+      <h1 class="main_title">Empresas</h1>
+    </div>
+    <div class="submenu_container">
+      <div class="sudmenu_items" [class.select_submenu]="submenu_selected==1" (click)="selectSubmenu(1)">Empresas</div>
+      <div class="sudmenu_items" [class.select_submenu]="submenu_selected==2" (click)="selectSubmenu(2)">Sucursal</div>
+    </div>
+
+    <div class = "user_container" *ngIf="submenu_selected==1">
+        <div class = "add_container">
+            <div class = "add_button" (click) = "openDialogEnterprises(null)">
+                <span>
+                    AÑADIR
+                </span>
+                <span class="material-icons-outlined">
+                    add_circle_outline
+                </span>
+            </div>
+        </div>
+  
+        <div class="page__body">
+            <table class="table">
+                <thead class="table__thead">
+                    <tr class="table__tr">
+                        <th class="table__th" *ngFor="let title of enterprise_titles">
+                            <span class="sort-text">
+                                {{ title }}
+                                <span class="material-icons-outlined">
+                                    arrow_drop_down
+                                </span>
+                            </span>
+                        </th>
+                    </tr>
+                </thead>
+                <div class="table__tbody row--flex row--flex-align-center row--flex-justify-center" *ngIf="is_loading">
+                    <app-spinner
+                    width="50"
+                    height="50"
+                    color="#0090f3">
+                </app-spinner>
+                </div>
+                <tbody class="table__tbody" *ngIf="is_loading==false">
+                    <tr class="table__tr table__tr--tbody" *ngFor = "let enterprise of enterprises; let i = index " (click) = "openDialogEnterprises(enterprise)">
+                        <td class="table__td">
+                        <span
+                        class="text text--bold status">
+                            <span>{{ enterprise.name_enterprise }}</span>
+                        </span>
+                        </td>
+                        <td class="table__td">
+                            <span> {{ enterprise.rfc }}</span>
+                        </td>
+                        <td class="table__td">
+                            <span
+                                class="text text--bold status" 
+                                [ngClass]="{
+                                'status_orange': enterprise.is_active ==0,
+                                'status_green': enterprise.is_active ==1
+                            }">
+                                <span *ngIf="enterprise.is_active == 0">Bloqueado</span>
+                                <span *ngIf="enterprise.is_active == 1">Activo</span>
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class = "user_container" *ngIf="submenu_selected==2">
+        <div class="row row--mb-10">
+            <form class="form">
+                <div class="col col--flex col--flex-align-center" style="width: 100%;">
+                    <div class="wrap-search">
+                        <input
+                            #search_input
+                            class="input-search"
+                            placeholder="Search by any order parameter..."
+                            type="text" />
+                    </div>
+                    <div class="wrap-filters">
+                        <!-- creation date -->
+                        <ng-multiselect-dropdown
+                                class="filter"
+                                [placeholder]="'Status'"
+                                [settings]="dropdownSettings"
+                                [data]="admin_status"
+                                (onSelect)="getBranchsByStatus($event)"
+                                (onDeSelect) = "clearStatusInput()"
+                                >
+                        </ng-multiselect-dropdown>
+                        <!-- status -->
+                    </div>
+                    <div class = "add_button" (click) = "openDialogBranch(null)">
+                        <span>
+                            AÑADIR
+                        </span>
+                        <span class="material-icons-outlined">
+                            add_circle_outline
+                        </span>
+                    </div>
+                </div>
+            </form>
+        </div>
+        
+        <div class="page__body">
+            <table class="table">
+                <thead class="table__thead">
+                    <tr class="table__tr table__tr--branch">
+                        <th class="table__th" *ngFor="let branch_title of branchs_titles">
+                            <span class="sort-text">
+                                {{ branch_title }}
+                                <span class="material-icons-outlined">
+                                    arrow_drop_down
+                                </span>
+                            </span>
+                        </th>
+                    </tr>
+                </thead>
+                <div class="table__tbody row--flex row--flex-align-center row--flex-justify-center" *ngIf="is_loading">
+                    <app-spinner
+                    width="50"
+                    height="50"
+                    color="#0090f3">
+                </app-spinner>
+                </div>
+                <tbody class="table__tbody" *ngIf="is_loading==false">
+                    <tr class="table__tr table__tr--tbody table__tr--branch" (click) = "openDialogBranch(branch)" *ngFor = "let branch of branchs; let i = index ">
+                        <td class="table__td">
+                        <span
+                        class="text text--bold status">
+                            <span>{{ branch.name_branch }}</span>
+                        </span>
+                        </td>
+                        <td class="table__td">
+                          <span> {{ branch.name_enterprise }}</span>
+                        </td>
+                        <td class="table__td">
+                            <span > {{ branch.phone }}</span>
+                        </td>
+                        <td class="table__td">
+                            <span > {{ branch.email }}</span>
+                        </td>
+                        <td class="table__td">
+                            <span
+                                class="text text--bold status" 
+                                [ngClass]="{
+                                'status_orange': branch.is_active_branch ==0,
+                                'status_green': branch.is_active_branch ==1
+                            }">
+                                <span *ngIf="branch.is_active_branch ==0">Bloqueado</span>
+                                <span *ngIf="branch.is_active_branch ==1">Activo</span>
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot class="table__tfoot">
+                    <div class="row row--flex row--flex-space-between">
+                        <div class="col col--flex col--flex-align-center">
+                            <p class="text text--color-gray text--mr-10">
+                                ALL
+                                <span class="qty-box">
+                                    {{ total_count }}
+                                </span>
+                            </p>
+                            <select name="" id="" (change)= "changeLimit($event.target.value)">
+                                <option value="10" selected>10</option>
+                                <option value="20" >20</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                                <option value="">ALL</option>
+                            </select>
+                        </div>
+                        <div class="col col--flex col--flex-align-center">
+                            <div class="col col--flex col--flex-align-center text text--color-gray">
+                                <div class="previous" (click)="goPrevious()">
+                                    <img src="./assets/icons_dashboard/chevron-left.svg" >
+                                    <span>Previous</span>
+                                </div>
+                                <input #input_number type="number" min="1" class="actual_page"  [(ngModel)]="page">
+                                <span>/</span>
+                                <span class="total_pages">{{ total_pages }}</span>
+                                <div  class="next" (click)="goNext()"> 
+                                    <span>Next</span>
+                                    <img src="./assets/icons_dashboard/chevron-right.svg">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>

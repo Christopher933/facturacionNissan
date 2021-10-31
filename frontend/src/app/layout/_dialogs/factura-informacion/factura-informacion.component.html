@@ -1,0 +1,160 @@
+<div class="dialog">
+    <div class="dialog__header">
+      <h2 class="dialog__title">
+        Informacion
+      </h2>
+      <div (click)="closeDialog()" class="close_dialog">
+        <span class="material-icons-outlined pointer">
+          clear
+        </span>
+      </div>
+    </div>
+    <div class="dialog__body">
+      <div class="top-bar">
+        <div class="col">
+          <p class="text text--sm text--color-gray">
+            RFC
+            <span class="text text--semi-bold text--block">
+              {{ info_factura.rfc }}
+            </span>
+          </p>
+        </div>
+        <div class="col" >
+          <p class="text text--sm text--color-gray">
+            Emision
+            <span class="text text--semi-bold text--block">
+              {{ info_factura.issue_date | date: "mediumDate"}}
+            </span>
+          </p>
+        </div>
+        <div class="col">
+          <p class="text text--sm text--color-gray">
+            Proveedor
+            <span class="text text--semi-bold text--block">
+              {{ info_factura.company_name }}
+            </span>
+          </p>
+        </div>
+        <div class="col">
+          <div class="text text--sm text--color-gray">
+            Status
+            <div class="text text--semi-bold text--block">
+              <span  class="text text--bold " 
+              [ngClass]="{
+              'status_blue': info_factura.id_status ==1,
+              'status_orange': info_factura.id_status ==2,
+              'status_green': info_factura.id_status ==3
+          }">
+                <span *ngIf="info_factura.id_status ==1">En revision </span>
+                <span *ngIf="info_factura.id_status ==2">Contrarecibo</span>
+                <span *ngIf="info_factura.id_status ==3">Pagada</span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <form class="form" >
+          <!-- PDF APLICATION-->
+        <div class="body_container">
+          <div class="section">
+            <p class="section__title">
+                Documentos
+            </p>
+            <div class="pdf_aplication_container">
+                <div>
+                  <div class="pdf_container">
+                    <div class=img_pdf>
+                        <img src="./assets/icons/pdf.png">
+                        <span>Documento PDF</span>
+                    </div>
+                    <div class="download_container" (click)="downloadFile(info_factura.path_pdf)">
+                        <span class="material-icons-outlined">
+                            file_download
+                        </span>
+                    </div>
+                  </div>
+            </div>
+            </div>
+            <div class="pdf_aplication_container">
+              <div>
+                <div class="pdf_container">
+                  <div class=img_xml>
+                      <img src="./assets/icons/xml.png">
+                      <span>Documento XML</span>
+                  </div>
+                  <div class="download_container"  (click)="downloadFile(info_factura.path_xml)">
+                      <span class="material-icons-outlined">
+                          file_download
+                      </span>
+                  </div>
+                </div>
+            </div>
+            </div>
+          </div>
+
+          <div class="section" *ngIf="info_factura.id_contrarecibo">
+            <p class="section__title">
+                Contrarecibo
+            </p>
+            <div class="pdf_aplication_container">
+                <div>
+                  <div class="pdf_container">
+                    <div class=img_pdf>
+                        <img src="./assets/icons/pdf.png">
+                        <span>Contrarecibo</span>
+                    </div>
+                    <div class="download_container" (click)="downloadContrarecibo(info_factura.id_contrarecibo)">
+                        <span class="material-icons-outlined">
+                            file_download
+                        </span>
+                      </div>
+                </div>
+                </div>
+            </div>
+          </div>
+
+          <div class="section" *ngIf="info_factura.id_payment">
+            <p class="section__title">
+                Pago
+            </p>
+            <div class="pdf_aplication_container">
+                <div>
+                  <div class="pdf_container">
+                    <div class=img_payment>
+                        <img src="./assets/icons/document.png">
+                        <span>Comprobante de pago</span>
+                    </div>
+                    <div class="download_container" (click)="downloadPayment(info_factura.id_payment)">
+                        <span class="material-icons-outlined">
+                            file_download
+                        </span>
+                      </div>
+                </div>
+                </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="wrap-buttons">
+          <div class="row row--flex row--flex-end">
+            <button type="submit"
+            class="btn btn--primary"  (click)="openDialogPayment()">
+              Enviar pago
+            </button>
+            <button type="submit"
+            class="btn btn--primary"  (click)="openDialogContrarecibo()">
+              Contrarecibo
+            </button>
+            <button type="submit"
+            class="btn btn--primary">
+              Cerrar
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+</div>
+
+
+

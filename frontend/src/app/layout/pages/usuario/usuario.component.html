@@ -1,0 +1,198 @@
+<div class="section_container">
+    <div class="section_title">
+      <h1 class="main_title">Usuarios</h1>
+    </div>
+    <div class="submenu_container">
+      <div class="sudmenu_items" [class.select_submenu]="submenu_selected==1" (click)="selectSubmenu(1)">Admin / Gestor</div>
+      <div class="sudmenu_items" [class.select_submenu]="submenu_selected==2" (click)="selectSubmenu(2)">Proveedor</div>
+      <div class="sudmenu_items" [class.select_submenu]="submenu_selected==3" (click)="selectSubmenu(3)">Gestionar Usuarios</div>
+    </div>
+    <form class="inputs_container" [formGroup]="form_user" *ngIf="submenu_selected==1">
+      <div class="input_wrap" [class.error]="f.user_name.errors  && is_sumitted">
+        <span class="input_label">Nombre de Empresa <span *ngIf="f.user_name.errors  && is_sumitted">*</span></span>
+        <input class="actual_input" type="text"  formControlName="user_name" [class.error]="f.user_name.errors  && is_sumitted">
+      </div>
+      <div class="input_wrap" [class.error]="f.password.errors  && is_sumitted">
+        <span class="input_label">Contraseña<span *ngIf="f.password.errors  && is_sumitted">*</span></span>
+        <input class="actual_input" type="text" formControlName="password" [class.error]="f.password.errors  && is_sumitted">
+      </div>
+      <div class="input_wrap" [class.error]="f.email.errors  && is_sumitted">
+        <span class="input_label">Email<span *ngIf="f.email.errors  && is_sumitted">*</span></span>
+        <input class="actual_input" type="text" formControlName="email" [class.error]="f.email.errors  && is_sumitted">
+      </div>
+      <div class="input_wrap" [class.error]="f.id_role.errors  && is_sumitted">
+        <span class="input_label">Tipo de usuario<span *ngIf="f.id_role.errors  && is_sumitted">*</span></span>
+        <select class="actual_input" formControlName="id_role" [class.error]="f.id_role.errors  && is_sumitted">
+            <option value=""selected disabled>Elige una opcion</option>
+            <option value="1">Administrador</option>
+            <option value="2">Gestor</option>
+        </select>
+      </div>
+    </form>
+
+    <form class="inputs_container" [formGroup]="form_user" *ngIf="submenu_selected==2">
+      <div class="input_wrap" [class.error]="f.user_name.errors  && is_sumitted">
+        <span class="input_label">Nombre de usuario <span *ngIf="f.user_name.errors  && is_sumitted">*</span></span>
+        <input class="actual_input" type="text"  formControlName="user_name" [class.error]="f.user_name.errors  && is_sumitted">
+      </div>
+      <div class="input_wrap" [class.error]="f.password.errors  && is_sumitted">
+        <span class="input_label">Contraseña<span *ngIf="f.password.errors  && is_sumitted">*</span></span>
+        <input class="actual_input" type="text" formControlName="password" [class.error]="f.password.errors  && is_sumitted">
+      </div>
+      <div class="input_wrap" [class.error]="f.rfc.errors  && is_sumitted">
+        <span class="input_label">RFC<span *ngIf="f.rfc.errors  && is_sumitted">*</span></span>
+        <input class="actual_input" type="text" formControlName="rfc" [class.error]="f.rfc.errors  && is_sumitted">
+      </div>
+      <div class="input_wrap" [class.error]="f.company_name.errors  && is_sumitted">
+        <span class="input_label">Razon Social<span *ngIf="f.company_name.errors  && is_sumitted">*</span></span>
+        <input class="actual_input" type="text" formControlName="company_name" [class.error]="f.company_name.errors  && is_sumitted">
+      </div>
+      <div class="input_wrap" [class.error]="f.phone.errors  && is_sumitted">
+        <span class="input_label">Telefono<span *ngIf="f.phone.errors  && is_sumitted">*</span></span>
+        <input class="actual_input" type="text" formControlName="phone" [class.error]="f.phone.errors  && is_sumitted">
+      </div>
+      <div class="input_wrap" [class.error]="f.email.errors  && is_sumitted">
+        <span class="input_label">Email<span *ngIf="f.email.errors  && is_sumitted">*</span></span>
+        <input class="actual_input" type="text" formControlName="email" [class.error]="f.email.errors  && is_sumitted">
+      </div>
+    </form>
+
+    <div class = "user_container" *ngIf="submenu_selected==3">
+    <div class="row row--mb-10">
+      <form class="form">
+          <div class="col col--flex col--flex-align-center">
+              <div class="wrap-search">
+                  <input
+                      #search_input
+                      class="input-search"
+                      placeholder="Search by any order parameter..."
+                      type="text" />
+              </div>
+              <div class="wrap-filters">
+                  <!-- creation date -->
+                  <ng-multiselect-dropdown
+                          class="filter"
+                          [placeholder]="'Status'"
+                          [settings]="dropdownSettings"
+                          [data]="admin_status"
+                          (onSelect)="getUsersById($event)"
+                          (onDeSelect) = "clearStatusInput()"
+                          >
+                  </ng-multiselect-dropdown>
+                  <!-- status -->
+              </div>
+          </div>
+      </form>
+  </div>
+  
+  <div class="page__body">
+      <table class="table">
+          <thead class="table__thead">
+              <tr class="table__tr">
+                  <th class="table__th" *ngFor="let title of head_title">
+                      <span class="sort-text">
+                          {{ title }}
+                          <span class="material-icons-outlined">
+                              arrow_drop_down
+                          </span>
+                      </span>
+                  </th>
+              </tr>
+          </thead>
+          <div class="table__tbody row--flex row--flex-align-center row--flex-justify-center" *ngIf="is_loading">
+              <app-spinner
+              width="50"
+              height="50"
+              color="#0090f3">
+          </app-spinner>
+          </div>
+          <tbody class="table__tbody" *ngIf="is_loading==false">
+              <tr class="table__tr table__tr--tbody" (click)="openDialog( i )" *ngFor = "let user of users; let i = index ">
+                  <td class="table__td">
+                  <span
+                  class="text text--bold status">
+                      <span>{{ user.user_name }}</span>
+                  </span>
+                  </td>
+                  <td class="table__td">
+                    <span> {{ user.email }}</span>
+                </td>
+                  <td class="table__td">
+                      <span *ngIf="user.rfc"> {{ user.rfc }}</span>
+                      <span *ngIf="!user.rfc">N/A</span>
+                  </td>
+                  <td class="table__td">
+                      <span *ngIf="user.id_role==1">Administrador</span>
+                      <span *ngIf="user.id_role==2">Gestor</span>
+                      <span *ngIf="user.id_role==3">Proveedor</span>
+                  </td>
+                  <td class="table__td">
+                      <span
+                          class="text text--bold status" 
+                          [ngClass]="{
+                          'status_orange': user.status ==0,
+                          'status_green': user.status ==1
+                      }">
+                          <span *ngIf="user.status ==0">Bloqueado</span>
+                          <span *ngIf="user.status ==1">Activo</span>
+                      </span>
+                  </td>
+              </tr>
+          </tbody>
+          <tfoot class="table__tfoot">
+              <div class="row row--flex row--flex-space-between">
+                  <div class="col col--flex col--flex-align-center">
+                      <p class="text text--color-gray text--mr-10">
+                          ALL
+                          <span class="qty-box">
+                              {{ total_count }}
+                          </span>
+                      </p>
+                      <select name="" id="" (change)= "changeLimit($event.target.value)">
+                          <option value="10" selected>10</option>
+                          <option value="20" >20</option>
+                          <option value="50">50</option>
+                          <option value="100">100</option>
+                          <option value="">ALL</option>
+                      </select>
+                  </div>
+                  <div class="col col--flex col--flex-align-center">
+                      <div class="col col--flex col--flex-align-center text text--color-gray">
+                          <div class="previous" (click)="goPrevious()">
+                              <img src="./assets/icons_dashboard/chevron-left.svg" >
+                              <span>Previous</span>
+                          </div>
+                          <input #input_number type="number" min="1" class="actual_page"  [(ngModel)]="page">
+                          <span>/</span>
+                          <span class="total_pages">{{ total_pages }}</span>
+                          <div  class="next" (click)="goNext()"> 
+                              <span>Next</span>
+                              <img src="./assets/icons_dashboard/chevron-right.svg">
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </tfoot>
+      </table>
+  </div>
+    </div>
+  
+
+    <div class="buttons_container" *ngIf="submenu_selected!=3">
+      <div class="buttons_section">
+        <span class="previous_container">
+          <img class="img_arrow" src="./assets/chevron_left_black_24dp.svg">
+          <span>
+            Previous Step
+          </span>
+        </span>
+      </div>
+      <div  class="buttons_section">
+        <button class="btn btn--primary" (click)="createUser()">
+          <span>
+            Crear Usuario
+          </span>
+        </button>
+      </div>
+    </div>  
+</div>
