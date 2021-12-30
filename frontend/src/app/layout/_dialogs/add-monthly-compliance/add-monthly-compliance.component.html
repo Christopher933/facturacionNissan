@@ -1,0 +1,80 @@
+
+<div class="dialog" >
+    <div class="dialog__header">
+        <h2 class="dialog__title">
+            Cumplimiento del mes
+        </h2>
+        <div   class="close_dialog">
+            <span (click)="closeDialog()" class="material-icons-outlined pointer">
+                clear
+            </span>
+        </div>
+    </div>
+    <div class="card__body" [formGroup]= "form_compliance" >
+        <div class="dialog_top" *ngIf ="!monthly_compliance || monthly_compliance.id_status_file == 2">
+            <div class="form__group">
+                <div class="label_container text_label">
+                    Mes de Cumplimiento
+                </div>
+                <select name="" id="" class="form_input" formControlName="month">
+                    <option  *ngFor ="let month of months" value="{{month.value}}">{{ month.name }}</option>
+                </select>
+            </div>
+        </div>
+        <div class="dialog_top">
+            <div class="pdf_container" *ngIf ="monthly_compliance && monthly_compliance.id_status_file != 2">
+                <a class=img_pdf target="_blank" href= "monthly_compliance.file_compliance_url">
+                    <img src="./assets/icons/pdf.png">
+                    <span>Opinion de Cumplimiento</span>
+                </a>
+                <div class="download_container" (click) = "downloadFile(monthly_compliance.file_compliance_url)">
+                    <span class="material-icons-outlined">
+                        file_download
+                    </span>
+                </div>
+            </div>
+            <label class="file_container" for="inputFile" *ngIf="!file">
+                <input class="inputFile" type="file" id="inputFile" (change) ="insertFile($event.target.files[0])" formControlName= "archivo"> 
+                <span class="inputFile_text">Carga o arrastra el archivo pdf</span>
+            </label>
+            <div class = "file_upload" *ngIf="file">
+                <div>
+                    <span class="material-icons-outlined" style="color: #72e800;margin-right: 10px;">
+                        check_circle
+                    </span>
+                    <span>
+                        {{ name_file }}
+                    </span>
+                </div>
+                <span class="material-icons-outlined " style="cursor: pointer;" (click)= "deleteFile()">
+                    clear
+                </span>
+            </div>
+        </div>
+        <div class="dialog_footer">
+            <button 
+            [disabled]= "is_loading"
+            class="btn btn--mr-10" (click)="closeDialog()">Cerrar</button>
+            <button 
+            *ngIf = "!monthly_compliance"
+            (click) = "sendFile()"
+            [class.spinner]= "is_loading"
+            [disabled] = "is_loading"
+            class="btn btn--primary"  >
+                 <span *ngIf="is_loading==false">Enviar Documento</span> 
+            </button>
+            <button 
+            *ngIf = "monthly_compliance"
+            (click) = "updateFile()"
+            [class.spinner]= "is_loading"
+            [disabled] = "is_loading"
+            class="btn btn--primary"  >
+                 <span *ngIf="is_loading==false">Actualizar Documento</span> 
+            </button>
+        </div>
+    </div>
+</div>
+
+
+
+

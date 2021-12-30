@@ -17,7 +17,7 @@ const upload = multer({ storage: storage })
 exports.upload = upload.array('archivos')
 
 exports.uploadFile = (req, res) => {
-    let { issue_date, payment_deadline, folio, mount, coin, id_user, shipping_date } = req.body;
+    let { issue_date, payment_deadline, folio, mount, coin, id_user, shipping_date, id_branch } = req.body;
     let path_pdf = req.files[0].path;
     let path_xml = req.files[1].path;
     let new_path_pdf = path.join(__dirname,"../public/facturas/"+`${Date.now()}-pdf-${folio}.pdf`)
@@ -34,9 +34,9 @@ exports.uploadFile = (req, res) => {
         console.log('Nombre Editado Satisfactoriamente');
       });
     
-    sql= "insert into invoice values (null, ?,?,?,?,?,?,?,?,?,?,?,?,?) "
+    sql= "insert into invoice values (null, ?,?,?,?,?,?,?,?,?,?,?,?,?,?) "
     
-     connection.query(sql,[issue_date,payment_deadline,mount, folio, coin, new_path_pdf,new_path_xml, id_user, 1, null,null,shipping_date,null],(err,row)=>{
+     connection.query(sql,[issue_date,payment_deadline,mount, folio, coin, new_path_pdf,new_path_xml, id_user, 1, null,null,shipping_date,null, id_branch],(err,row)=>{
         if(err){
             console.log("error", err)
             res.send({ message: "error de conexion", status: false})

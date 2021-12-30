@@ -3,7 +3,12 @@
     <div class="section_title" *ngIf= "perfil.id_role==3">
         <h1 class="main_title">{{ perfil.company_name }}</h1>
     </div>
-    <form class="inputs_container"  [formGroup]="form_perfil" >
+    <div class="submenu_container">
+      <div class="sudmenu_items" [class.select_submenu]="submenu_selected==1" (click)="selectSubmenu(1)">Perfil</div>
+      <div class="sudmenu_items" [class.select_submenu]="submenu_selected==2" (click)="selectSubmenu(2)">Mis sucursales</div>
+      <div class="sudmenu_items" [class.select_submenu]="submenu_selected==3" (click)="selectSubmenu(3)">Mis documentos</div>
+    </div>
+    <form class="inputs_container"  [formGroup]="form_perfil" *ngIf = "submenu_selected==1">
         <div class="input_wrap" *ngIf= "perfil.id_role==3">
             <span >RFC: </span>
             <span>{{ perfil.rfc }}</span>
@@ -11,7 +16,12 @@
         <div class="input_wrap" >
           <span>User: </span>
           <span>{{ perfil.user_name }}</span>
-      </div>
+        </div>
+        <div class="input_wrap"  *ngIf= "perfil.id_role==3">
+            <span>Regimen: </span>
+            <span *ngIf="perfil.id_regimen == 1">Moral</span>
+            <span *ngIf="perfil.id_regimen == 2">Persona fisica con actividad empresarial</span>
+          </div>
         <div class="input_wrap">
             <span >Rol: </span>
             <span *ngIf="perfil.id_role==1">Administrador</span>
@@ -26,43 +36,229 @@
             <span class="input_label">Email</span>
             <input class="actual_input" type="text"  formControlName= "email" >
         </div>
+        <div class="buttons_container" *ngIf= "perfil.id_role==3">
+          <div  class="buttons_section">
+            <button class="btn btn--primary" (click)="updateProfile()">
+              <span>
+                Actualizar Datos
+              </span>
+            </button>
+          </div>
+        </div>  
     </form>
-    <div class="buttons_container" *ngIf= "perfil.id_role==3">
-        <div  class="buttons_section">
-          <button class="btn btn--primary" (click)="updateProfile()">
-            <span>
-              Actualizar Datos
-            </span>
-          </button>
-        </div>
-      </div>  
-</div>
 
-<div class = "section_container_right">
-  <div class="item_file" (click) = "openFilesDialog('cuentas bancarias')">
-    <span class="material-icons-outlined item_icon">
-      account_balance
-    </span>
-    <div class = "item_file__title">
-      <span>Cuentas bancarias</span>
-    </div>
+    <div class = "user_container" *ngIf="submenu_selected==2">
+      <div class="row row--mb-10">
+          <form class="form">
+              <div class="col col--flex col--flex-align-center" style="width: 100%;">
+                  <div class="wrap-search">
+                      <input
+                          #search_input
+                          class="input-search"
+                          placeholder="Search by any order parameter..."
+                          type="text" />
+                  </div>
+                  <div class="wrap-filters">
+                      <!-- creation date -->
+                      <ng-multiselect-dropdown
+                              class="filter"
+                              [placeholder]="'Status'"
+                              [settings]="dropdownSettings"
+                              [data]="admin_status"
+                              (onSelect)="getBranchsByStatus($event)"
+                              (onDeSelect) = "clearStatusInput()"
+                              >
+                      </ng-multiselect-dropdown>
+                      <!-- status -->
+                  </div>
+                  <div class = "add_button" (click) = "openDialogBranch(null)">
+                      <span>
+                          AÑADIR
+                      </span>
+                      <span class="material-icons-outlined">
+                          add_circle_outline
+                      </span>
+                  </div>
+              </div>
+          </form>
+      </div>
+      
+      <div class="page__body">
+          <table class="table">
+              <thead class="table__thead">
+                  <tr class="table__tr table__tr--branch">
+                      <th class="table__th" *ngFor="let branch_title of branchs_titles">
+                          <span class="sort-text">
+                              {{ branch_title }}
+                              <span class="material-icons-outlined">
+                                  arrow_drop_down
+                              </span>
+                          </span>
+                      </th>
+                  </tr>
+              </thead>
+              <div class="table__tbody row--flex row--flex-align-center row--flex-justify-center" *ngIf="is_loading">
+                  <app-spinner
+                  width="50"
+                  height="50"
+                  color="#0090f3">
+              </app-spinner>
+              </div>
+              <tbody class="table__tbody" *ngIf="is_loading==false">
+                  <tr class="table__tr table__tr--tbody table__tr--branch" (click) = "openDialogBranch(branch)" *ngFor = "let branch of branchs; let i = index ">
+                      <td class="table__td">
+                      <span
+                      class="text text--bold status">
+                          <span>{{ branch.name_branch }}</span>
+                      </span>
+                      </td>
+                      <td class="table__td">
+                        <span> {{ branch.colony }}</span>
+                      </td>
+                      <td class="table__td">
+                          <span > {{ branch.phone }}</span>
+                      </td>
+                      <td class="table__td">
+                          <span > {{ branch.email }}</span>
+                      </td>
+                      <td class="table__td">
+                          <span
+                              class="text text--bold status" 
+                              [ngClass]="{
+                              'status_orange': branch.is_active_branch ==0,
+                              'status_green': branch.is_active_branch ==1
+                          }">
+                              <span *ngIf="branch.is_active_branch ==0">Bloqueado</span>
+                              <span *ngIf="branch.is_active_branch ==1">Activo</span>
+                          </span>
+                      </td>
+                  </tr>
+              </tbody>
+              <tfoot class="table__tfoot">
+                  <div class="row row--flex row--flex-space-between">
+                      <div class="col col--flex col--flex-align-center">
+                          <p class="text text--color-gray text--mr-10">
+                              ALL
+                              <span class="qty-box">
+                                  {{ total_count }}
+                              </span>
+                          </p>
+                          <select name="" id="" (change)= "changeLimit($event.target.value)">
+                              <option value="10" selected>10</option>
+                              <option value="20" >20</option>
+                              <option value="50">50</option>
+                              <option value="100">100</option>
+                              <option value="">ALL</option>
+                          </select>
+                      </div>
+                      <div class="col col--flex col--flex-align-center">
+                          <div class="col col--flex col--flex-align-center text text--color-gray">
+                              <div class="previous" (click)="goPrevious()">
+                                  <img src="./assets/icons_dashboard/chevron-left.svg" >
+                                  <span>Previous</span>
+                              </div>
+                              <input #input_number type="number" min="1" class="actual_page"  [(ngModel)]="page">
+                              <span>/</span>
+                              <span class="total_pages">{{ total_pages }}</span>
+                              <div  class="next" (click)="goNext()"> 
+                                  <span>Next</span>
+                                  <img src="./assets/icons_dashboard/chevron-right.svg">
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </tfoot>
+          </table>
+      </div>
   </div>
-  <div class="item_file" (click) = "openFilesDialog('cumplimiento del mes')">
-    <span class="material-icons-outlined item_icon">
-      task
-    </span>
-    <div class = "item_file__title">
-      <span>Cumplimiento del mes</span>
+
+  <div class = "user_container" *ngIf="submenu_selected==3">
+    <div class="row row--mb-10">
+        <div class="form">
+            <div class="col col--flex col--flex-align-center" style="width: 100%;">
+            </div>
+        </div>
     </div>
-  </div>
-  <div class="item_file" (click) = "openFilesDialog('cedula fiscal')">
-    <span class="material-icons-outlined item_icon">
-      gavel
-    </span>
-    <div class = "item_file__title">
-      <span>Cedula Fiscal</span>
+    
+    <div class="page__body">
+        <table class="table">
+            <thead class="table__thead">
+                <tr class="table__tr table__tr--documents">
+                    <th class="table__th" *ngFor="let documents_title of documents_titles">
+                        <span class="sort-text">
+                            {{ documents_title }}
+                            <span class="material-icons-outlined">
+                                arrow_drop_down
+                            </span>
+                        </span>
+                    </th>
+                </tr>
+            </thead>
+            <div class="table__tbody row--flex row--flex-align-center row--flex-justify-center" *ngIf="is_loading">
+                <app-spinner
+                width="50"
+                height="50"
+                color="#0090f3">
+            </app-spinner>
+            </div>
+            <tbody class="table__tbody" *ngIf="is_loading==false">
+                <tr class="table__tr table__tr--tbody table__tr--documents" (click) = "openMonthlyComplianceDialog()">
+                    <td class="table__td">
+                    <span
+                    class="text text--bold status">
+                        <span class="material-icons-outlined">
+                            date_range
+                        </span>
+                    </span>
+                    </td>
+                    <td class="table__td">
+                      <span>Cumpliento del mes</span>
+                    </td>
+                    <td class="table__td">
+                        <span  *ngIf= monthly_compliance>{{ months[monthly_compliance.month - 1].name }}</span>
+                        <span  *ngIf= !monthly_compliance>N/A</span>
+                      </td>
+                    <td class="table__td">
+                        <span *ngIf= monthly_compliance>{{ monthly_compliance.create_date_compliance | date:'mediumDate'}}</span>
+                        <span *ngIf= !monthly_compliance>N/A</span>
+                    </td>
+                    <td class="table__td">
+                        <span *ngIf= monthly_compliance> {{ monthly_compliance.name_status_file }} </span>
+                        <span *ngIf= !monthly_compliance>Sin subir</span>
+                    </td>
+                </tr>
+                <tr class="table__tr table__tr--tbody table__tr--documents" 
+                    (click) = "openFilesDialog(file)"
+                    *ngFor = "let file of files_perfil">
+                    <td class="table__td">
+                    <span
+                    class="text text--bold status">
+                        <span class="material-icons-outlined">
+                            {{ file.icon }}
+                        </span>
+                    </span>
+                    </td>
+                    <td class="table__td">
+                      <span>{{ file.name }}</span>
+                    </td>
+                    <td class="table__td">
+                        <span *ngIf = "file.month">{{ months[file.month - 1].name }}</span>
+                        <span *ngIf = "!file.month">N/A</span>
+                      </td>
+                    <td class="table__td">
+                        <span *ngIf= file.create_date>{{ file.create_date | date:'mediumDate'}}</span>
+                        <span *ngIf= !file.create_date>N/A</span>
+                    </td>
+                    <td class="table__td">
+                        <span *ngIf= "file.id_status_file == 1">Subida</span>
+                        <span *ngIf= "file.id_status_file == 2">Vencido</span>
+                        <span *ngIf= !file.id_status_file>Sin subir</span>
+                    </td>
+                </tr>
+                
+            </tbody>
+        </table>
     </div>
-  </div>
 </div>
 
 </div>

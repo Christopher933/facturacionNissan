@@ -16,8 +16,6 @@ exports.sendContrarecibo = async (req, res) =>{
         data: plantilla.contrarecibo
     });
 
-    console.log(req.body)
-
     let render_file = tamplate.render({ 
         shipping_date: req.body.shipping_date ,
         company_name: req.body.company_name,
@@ -156,5 +154,18 @@ async function insertIdContrareciboInvoice(id_contrarecibo, id_invoice){
             }
         })
 
+    })
+}
+
+exports.getInvoicesInProgress = (req,res) =>{
+    let query = `call facturacionnissan.proc_get_invoices_pending( ?, ?);`
+
+    connection.query(query, [req.body.id_user, req.body.id_invoice], (err, row)=>{
+        if(err){
+            console.log(err)
+            res.send({ message: "Error de conexion", status: false })
+        }else{
+            res.send({ message: "Consulta Correcta", status: true, result: row[0] })
+        }
     })
 }

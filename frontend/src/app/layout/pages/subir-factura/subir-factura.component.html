@@ -3,43 +3,91 @@
       <h1 class="main_title">Subir Factura</h1>
       <span class="main_subtitle">Por favor llenar los siguientes datos</span>
     </div>
-    <form class="inputs_container"  [formGroup]="form_factura">
-      <div class="input_wrap" [class.error]="f.fecha_emision.errors  && is_sumitted">
-        <span class="input_label">Fecha de emision <span *ngIf="f.fecha_emision.errors  && is_sumitted">*</span></span>
-        <input class="actual_input" type="date" formControlName="fecha_emision" [class.error]="f.fecha_emision.errors  && is_sumitted">
+    <form class="inputs_container"  [formGroup]="form_factura" *ngIf = "section == 1">
+      <div class="input_wrap" [class.error]="f.fecha_emision.errors  && is_submitted">
+        <span class="input_label">Fecha de emision <span *ngIf="f.fecha_emision.errors  && is_submitted">*</span></span>
+        <input class="actual_input" type="date" formControlName="fecha_emision" [class.error]="f.fecha_emision.errors  && is_submitted">
       </div>
-      <div class="input_wrap" [class.error]="f.fecha_limite.errors  && is_sumitted">
-        <span class="input_label">Fecha limite de pago<span *ngIf="f.fecha_limite.errors  && is_sumitted">*</span></span>
-        <input class="actual_input" type="date" formControlName="fecha_limite" [class.error]="f.fecha_limite.errors  && is_sumitted">
+      <div class="input_wrap" [class.error]="f.fecha_limite.errors  && is_submitted">
+        <span class="input_label">Fecha limite de pago<span *ngIf="f.fecha_limite.errors  && is_submitted">*</span></span>
+        <input class="actual_input" type="date" formControlName="fecha_limite" [class.error]="f.fecha_limite.errors  && is_submitted">
       </div>
-      <div class="input_wrap" [class.error]="f.folio.errors  && is_sumitted">
-        <span class="input_label">Folio<span *ngIf="f.folio.errors  && is_sumitted">*</span></span>
-        <input class="actual_input" type="text" formControlName="folio" [class.error]="f.folio.errors  && is_sumitted">
+      <div class="input_wrap" [class.error]="f.folio.errors  && is_submitted">
+        <span class="input_label">Folio<span *ngIf="f.folio.errors  && is_submitted">*</span></span>
+        <input class="actual_input" type="text" formControlName="folio" [class.error]="f.folio.errors  && is_submitted">
       </div>
-      <div class="input_wrap" [class.error]="f.monto.errors  && is_sumitted">
-        <span class="input_label">Monto<span *ngIf="f.monto.errors  && is_sumitted">*</span></span>
-        <input class="actual_input" type="number" formControlName="monto" [class.error]="f.monto.errors  && is_sumitted">
+      <div class="input_wrap" [class.error]="f.monto.errors  && is_submitted">
+        <span class="input_label">Monto<span *ngIf="f.monto.errors  && is_submitted">*</span></span>
+        <input class="actual_input" type="number" formControlName="monto" [class.error]="f.monto.errors  && is_submitted">
       </div>
-      <div class="input_wrap" [class.error]="f.moneda.errors  && is_sumitted">
-        <span class="input_label">Moneda<span *ngIf="f.moneda.errors  && is_sumitted">*</span></span>
-        <select class="actual_input" formControlName="moneda" [class.error]="f.moneda.errors  && is_sumitted">
+      <div class="input_wrap" [class.error]="f.moneda.errors  && is_submitted">
+        <span class="input_label">Moneda<span *ngIf="f.moneda.errors  && is_submitted">*</span></span>
+        <select class="actual_input" formControlName="moneda" [class.error]="f.moneda.errors  && is_submitted">
           <option value="" selected disabled>Selecciona Moneda</option>
           <option value="pesos">Pesos</option>
           <option value="dolares">Dolares</option>
         </select>
       </div>
+      <div class="input_wrap">
+        <div class="input_label">
+            Empresa
+        </div>
+        <select 
+        (change) = getBranch($event.target.value)
+        [class.error] = "f.id_enterprise.errors && is_submitted"
+        name="" id="" class="actual_input" formControlName = "id_enterprise" placeholder="Selecciona empresa">
+            <option value="{{enterprise.id_enterprise}}" *ngFor = "let enterprise of enterprises">{{enterprise.name_enterprise}}</option>
+        </select>
+    </div>
+    <div class="input_wrap">
+        <div class="input_label">
+            Sucursal
+        </div>
+        <select 
+        [class.error] = "f.id_branch.errors && is_submitted"
+        name="" id="" class="actual_input" formControlName = "id_branch" placeholder="Selecciona Sucursal">
+            <option value="{{branch.id_branch}}" *ngFor = "let branch of branchs">{{branch.name_branch}}</option>
+        </select>
+    </div>
     </form>
-    <label class="file_container" for="inputFile" *ngIf="!f.pdf.value">
+
+    <div *ngIf = "section == 2" class= "files_container">
+      <label class="file_container" for="inputFile" *ngIf="!f.pdf.value">
         <input class="inputFile" type="file" id="inputFile" (change)="uploadArchive($event.target.files[0], 'pdf')" > 
         <span class="inputFile_text">Carga o arrastra el archivo pdf</span>
-    </label>
-    <label class="file_container" for="inputFile" *ngIf="!f.xml.value && f.pdf.value">
-      <input class="inputFile" type="file" id="inputFile" (change)="uploadArchive($event.target.files[0], 'xml')"> 
-      <span class="inputFile_text">Carga o arrastra el archivo xml</span>
-  </label>
+      </label>
+      <div class = "file_upload" *ngIf="f.pdf.value">
+        <div>
+            <span class="material-icons-outlined" style="color: #72e800;margin-right: 10px;">
+                check_circle
+            </span>
+            <span>
+                {{ pdf_name }}
+            </span>
+        </div>
+    </div>
+      <label class="file_container" for="inputFile" *ngIf="!f.xml.value && f.pdf.value">
+        <input class="inputFile" type="file" id="inputFile" (change)="uploadArchive($event.target.files[0], 'xml')"> 
+        <span class="inputFile_text">Carga o arrastra el archivo xml</span>
+      </label>
+      <div class = "file_upload" *ngIf="f.xml.value">
+        <div>
+            <span class="material-icons-outlined" style="color: #72e800;margin-right: 10px;">
+                check_circle
+            </span>
+            <span>
+                {{ xml_name }}
+            </span>
+        </div>
+    </div>
+    <button class="btn btn--primary" (click)="deleteFile()" *ngIf = "f.xml.value && f.pdf.value">
+      <span>Subir de nuevo</span>
+    </button>
+    </div>
+
     <div class="buttons_container">
       <div class="buttons_section">
-        <span class="previous_container">
+        <span class="previous_container" (click)="goBack()" *ngIf = "section == 2">
           <img class="img_arrow" src="./assets/chevron_left_black_24dp.svg">
           <span>
             Previous Step
@@ -47,8 +95,11 @@
         </span>
       </div>
       <div  class="buttons_section">
-        <button class="btn btn--primary" (click)="goSend()">
-          <span>
+        <button class="btn btn--primary" (click)="nextSection()">
+          <span *ngIf = "section == 1">
+            Siguiente
+          </span>
+          <span *ngIf = "section == 2">
             Subir Factura
           </span>
         </button>

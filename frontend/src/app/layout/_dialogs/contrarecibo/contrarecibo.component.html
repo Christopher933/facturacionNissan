@@ -22,6 +22,17 @@
                 class="form__control textarea_input">
             </div>
         </div>
+
+        <div class = "invoices_container">
+            <p class="label_container text_label">
+                Facturas en revision
+            </p>
+            <div *ngFor = "let invoices of invoices_pending; let i = index" >
+                <input type="checkbox" name="" id="" (click) = "addInvoiceArray(i, invoices)">
+                <div>{{ invoices.folio }}</div>
+                <div>{{ invoices.mount | currency }}</div>
+            </div>
+        </div>
         <div class="dialog_footer">
             <button 
             [disabled]= "is_loading"

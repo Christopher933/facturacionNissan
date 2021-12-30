@@ -581,3 +581,20 @@
   .text--bold {
       font-weight: 600;
   }
+
+  .add_container{
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+}
+
+.add_button{
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+}
+
+.add_button > span:first-child{
+    margin-right: 5px;
+}

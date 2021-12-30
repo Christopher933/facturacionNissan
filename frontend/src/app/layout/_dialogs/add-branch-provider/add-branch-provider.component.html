@@ -1,0 +1,129 @@
+
+<div class="dialog">
+    <div class="dialog__header">
+        <h2 class="dialog__title">
+            Sucursal
+        </h2>
+        <div   class="close_dialog">
+            <span (click)="closeDialog()" class="material-icons-outlined pointer">
+                clear
+            </span>
+        </div>
+    </div>
+    <div class="card__body" [formGroup]="form_branch">
+        <div class = wrapper_container>
+            <div class="form_group">
+                <div class="label_text">
+                    Nombre
+                </div>
+                <input
+                [class.error] = "f.name_branch.errors && is_submitted"
+                formControlName = "name_branch"
+                type= "text"
+                class="form_input">
+            </div>
+            <div class="form_group">
+                <div class="label_text">
+                    Calle
+                </div>
+                <input
+                [class.error] = "f.street.errors && is_submitted"
+                formControlName = "street"
+                type= "text"
+                class="form_input">
+            </div>
+            <div class="form_group">
+                <div class="label_text">
+                    Colonia
+                </div>
+                <input
+                [class.error] = "f.colony.errors && is_submitted"
+                formControlName = "colony"
+                type= "text"
+                class="form_input">
+            </div>
+            <div class="form_group">
+                <div class="label_text">
+                    Ciudad
+                </div>
+                <input
+                [class.error] = "f.city.errors && is_submitted"
+                formControlName = "city"
+                type= "text"
+                class="form_input">
+            </div>
+            <div class="form_group">
+                <div class="label_text">
+                    Estado
+                </div>
+                <input
+                [class.error] = "f.state.errors && is_submitted"
+                formControlName = "state"
+                type= "text"
+                class="form_input">
+            </div>
+            <div class="form_group">
+                <div class="label_text">
+                    Codigo postal
+                </div>
+                <input
+                [class.error] = "f.zip_code.errors && is_submitted"
+                formControlName = "zip_code"
+                type= "text"
+                class="form_input">
+            </div>
+            <div class="form_group">
+                <div class="label_text">
+                    Telefono
+                </div>
+                <input
+                [class.error] = "f.phone.errors && is_submitted"
+                formControlName = "phone"
+                type= "text"
+                class="form_input">
+            </div>
+            <div class="form_group">
+                <div class="label_text">
+                    email
+                </div>
+                <input
+                [class.error] = "f.email.errors && is_submitted"
+                formControlName = "email"
+                type= "text"
+                class="form_input">
+            </div>
+            <div class="form_group">
+                <div class="label_text">
+                    Status
+                </div>
+                <select 
+                [class.error] = "f.is_active.errors && is_submitted"
+                name="" id="" class="form_input" formControlName = "is_active">
+                    <option value="0" *ngIf= "data != null">Bloqueado</option>
+                    <option value="1" >Activo</option>
+                </select>
+            </div>
+        </div>
+        <div class="dialog_footer">
+            <button 
+            [disabled]= "is_loading"
+            class="btn btn--mr-10" (click)="closeDialog()">Cerrar</button>
+            <button 
+            (click) = "updateBranch()"
+            *ngIf= "branch_info "
+            [class.spinner]= "is_loading"
+            [disabled] = "is_loading"
+            class="btn btn--primary" >
+                 <span *ngIf="is_loading == false">Actualizar Datos</span> 
+            </button>
+            <button 
+            (click) = "addBranch()"
+            *ngIf= "!branch_info "
+            [class.spinner]= "is_loading"
+            [disabled] = "is_loading"
+            class="btn btn--primary">
+                 <span *ngIf="is_loading==false">Crear Sucursal</span> 
+            </button>
+        </div>
+    </div>
+

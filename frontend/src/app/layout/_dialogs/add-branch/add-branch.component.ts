@@ -14,7 +14,7 @@ export class AddBranchComponent implements OnInit {
   branch_info:any;
   form_branch:FormGroup
   is_loading: boolean = false;
-  is_sumitted = false;
+  is_submitted = false;
   enterprises = [];
   branchs = [];
 
@@ -25,7 +25,7 @@ export class AddBranchComponent implements OnInit {
     public empresa_service: EmpresaService
   ) { 
     this.branch_info = data.branch;
-    this.enterprises = data.enterprises;
+    //this.enterprises = data.enterprises;
     this.form_branch = this.form_builder.group({
       name_branch: ["", Validators.required],
       street: ["", Validators.required],
@@ -38,6 +38,12 @@ export class AddBranchComponent implements OnInit {
       id_enterprise: ["", Validators.required],
       is_active: ["1",Validators.required],
     })
+
+    this.data.enterprises.forEach(element => {
+      if(element.is_active){
+        this.enterprises.push(element)
+      }
+    });
   }
 
   ngOnInit(): void {
@@ -59,8 +65,6 @@ export class AddBranchComponent implements OnInit {
     this.form_branch.controls.id_enterprise.setValue(this.branch_info.id_enterprise)
     this.form_branch.controls.is_active.setValue(this.branch_info.is_active_branch)
     this.form_branch.updateValueAndValidity();
-    console.log(this.form_branch.value)
-    console.log(this.branch_info)
   }
 
   closeDialog(){
@@ -68,13 +72,37 @@ export class AddBranchComponent implements OnInit {
   }
 
   addBranch(){
+    this.is_submitted = true;
+    if(this.form_branch.invalid){
+      return;
+    }
+    this.is_loading = true;
     this.empresa_service.addBranch(this.form_branch.value)
     .subscribe(res =>{
-      console.log(res)
+      this.is_loading = false;
+      if(res.status){
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: res.message
+        })
+        this.dialog_ref.close(true)
+      }else{
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: res.message
+        })
+      }
     })
   }
 
   updateBranch(){
+    this.is_submitted = true;
+    if(this.form_branch.invalid){
+      return;
+    }
+      
     this.is_loading = true;
     let data = {
       id_branch : this.branch_info.id_branch,

@@ -47,7 +47,6 @@ export class AddEnterpriseComponent implements OnInit {
     this.form_enterprise.controls.rfc.disable();
     this.form_enterprise.controls.is_active.setValue(this.data.is_active)
     this.form_enterprise.updateValueAndValidity();
-    console.log("yei",this.form_enterprise.value)
   }
 
   closeDialog(){

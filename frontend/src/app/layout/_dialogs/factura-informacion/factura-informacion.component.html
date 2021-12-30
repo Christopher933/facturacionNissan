@@ -56,6 +56,28 @@
       <form class="form" >
           <!-- PDF APLICATION-->
         <div class="body_container">
+
+          <div class="section" *ngIf = "monthly_compliance">
+            <p class="section__title">
+                Opinion de cumplimiento
+            </p>
+            <div class="pdf_aplication_container">
+                <div>
+                  <div class="pdf_container">
+                    <div class=img_pdf>
+                        <img src="./assets/icons/pdf.png">
+                        <span>Opinion de cumplimineto</span>
+                    </div>
+                    <div class="download_container" (click)="downloadMonthlyCompliance(monthly_compliance.file_compliance_url)">
+                        <span class="material-icons-outlined">
+                            file_download
+                        </span>
+                      </div>
+                </div>
+                </div>
+            </div>
+          </div>
+
           <div class="section">
             <p class="section__title">
                 Documentos

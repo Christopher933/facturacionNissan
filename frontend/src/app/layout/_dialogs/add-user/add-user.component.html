@@ -1,0 +1,214 @@
+<div class="dialog">
+    <div class="dialog__header">
+        <h2 class="dialog__title">
+            <span *ngIf = "section == 0">Seleccionar tipo de usuario</span>
+            <span *ngIf = "section == 1">Admin/Gestor</span>
+            <span *ngIf = "section == 2">Proveedor</span>
+        </h2>
+        <div   class="close_dialog">
+            <span (click)="closeDialog()" class="material-icons-outlined pointer">
+                clear
+            </span>
+        </div>
+    </div>
+
+    <div class = "select_section" *ngIf="section == 0">
+        <button 
+        class="btn btn--primary" (click) = "section = 1">
+             <span >Crear Admin/gestor</span> 
+        </button> 
+        <button 
+        class="btn btn--primary" (click) = "section = 2">
+             <span >Crear Proveedor</span> 
+        </button>  
+    </div>
+
+    <div class="card__body" [formGroup]="form_admin" *ngIf = "section == 1">
+        <div class = wrapper_container>
+            <div class="form_group">
+                <div class="label_text">
+                    Nombre de Usuario
+                </div>
+                <input
+                [class.error] = "f_admin.user_name.errors && is_submitted"
+                formControlName = "user_name"
+                type= "text"
+                class="form_input">
+            </div>
+            <div class="form_group">
+                <div class="label_text">
+                    Empresa
+                </div>
+                <select 
+                (change) = getBranch($event.target.value)
+                [class.error] = "f_admin.id_enterprise.errors && is_submitted"
+                name="" id="" class="form_input" formControlName = "id_enterprise" placeholder="Selecciona empresa">
+                    <option value="{{enterprise.id_enterprise}}" *ngFor = "let enterprise of enterprises">{{enterprise.name_enterprise}}</option>
+                </select>
+            </div>
+            <div class="form_group">
+                <div class="label_text">
+                    Sucursal
+                </div>
+                <select 
+                [class.error] = "f_admin.id_branch.errors && is_submitted"
+                name="" id="" class="form_input" formControlName = "id_branch" placeholder="Selecciona Sucursal">
+                    <option value="{{branch.id_branch}}" *ngFor = "let branch of branchs">{{branch.name_branch}}</option>
+                </select>
+            </div>
+            <div class="form_group">
+                <div class="label_text">
+                    Contraseña
+                </div>
+                <input
+                [class.error] = "f_admin.password.errors && is_submitted"
+                formControlName = "password"
+                type= "text"
+                class="form_input">
+            </div>
+            <div class="form_group">
+                <div class="label_text">
+                    Correo
+                </div>
+                <input
+                [class.error] = "f_admin.email.errors && is_submitted"
+                formControlName = "email"
+                type= "text"
+                class="form_input">
+            </div>
+            <div class="form_group">
+                <div class="label_text">
+                    Tipo de Usuario
+                </div>
+                <select 
+                [class.error] = "f_admin.id_role.errors && is_submitted"
+                name="" id="" class="form_input" formControlName = "id_role" placeholder="Selecciona empresa">
+                    <option value="1">Administrador</option>
+                    <option value="2">Gestor</option>
+                </select>
+            </div>
+        </div>
+        <div class="dialog_footer">
+            <button 
+            [disabled]= "is_loading"
+            class="btn btn--mr-10" (click)="goBack()">Volver</button>
+            <button 
+            (click) = "insertUser(this.form_admin.value)"
+            [class.spinner]= "is_loading"
+            [disabled] = "is_loading"
+            class="btn btn--primary">
+                 <span *ngIf="is_loading==false">Crear Usuario</span> 
+            </button>
+        </div>
+    </div>
+
+    <div class="card__body" [formGroup]="form_provider" *ngIf = "section == 2">
+        <div class = wrapper_container>
+            <div class="form_group">
+                <div class="label_text">
+                    Nombre de Usuario
+                </div>
+                <input
+                [class.error] = "f_provider.user_name.errors && is_submitted"
+                formControlName = "user_name"
+                type= "text"
+                class="form_input">
+            </div>
+            <div class="form_group">
+                <div class="label_text">
+                    Empresa
+                </div>
+                <select 
+                (change) = getBranch($event.target.value)
+                [class.error] = "f_provider.id_enterprise.errors && is_submitted"
+                name="" id="" class="form_input" formControlName = "id_enterprise" placeholder="Selecciona empresa">
+                    <option value="{{enterprise.id_enterprise}}" *ngFor = "let enterprise of enterprises">{{enterprise.name_enterprise}}</option>
+                </select>
+            </div>
+            <div class="form_group">
+                <div class="label_text">
+                    Sucursal
+                </div>
+                <select 
+                [class.error] = "f_provider.id_branch.errors && is_submitted"
+                name="" id="" class="form_input" formControlName = "id_branch" placeholder="Selecciona Sucursal">
+                    <option value="{{branch.id_branch}}" *ngFor = "let branch of branchs">{{branch.name_branch}}</option>
+                </select>
+            </div>
+            <div class="form_group">
+                <div class="label_text">
+                    Contraseña
+                </div>
+                <input
+                [class.error] = "f_provider.password.errors && is_submitted"
+                formControlName = "password"
+                type= "text"
+                class="form_input">
+            </div>
+            <div class="form_group">
+                <div class="label_text">
+                    Correo
+                </div>
+                <input
+                [class.error] = "f_provider.email.errors && is_submitted"
+                formControlName = "email"
+                type= "text"
+                class="form_input">
+            </div>
+            <div class="form_group">
+                <div class="label_text">
+                    Telefono
+                </div>
+                <input
+                [class.error] = "f_provider.phone.errors && is_submitted"
+                formControlName = "phone"
+                type= "text"
+                class="form_input">
+            </div>
+            <div class="form_group">
+                <div class="label_text">
+                    Razon social
+                </div>
+                <input
+                [class.error] = "f_provider.company_name.errors && is_submitted"
+                formControlName = "company_name"
+                type= "text"
+                class="form_input">
+            </div>
+            <div class="form_group">
+                <div class="label_text">
+                    RFC
+                </div>
+                <input
+                [class.error] = "f_provider.rfc.errors && is_submitted"
+                formControlName = "rfc"
+                type= "text"
+                class="form_input">
+            </div>
+            <div class="form_group">
+                <div class="label_text">
+                    Regimen
+                </div>
+                <select 
+                [class.error] = "f_provider.id_regimen.errors && is_submitted"
+                name="" id="" class="form_input" formControlName = "id_regimen" placeholder="Selecciona un regimen">
+                    <option value="1">Moral</option>
+                    <option value="2">Fisica con actividad Empresarial</option>
+                </select>
+            </div>
+        </div>
+        <div class="dialog_footer">
+            <button 
+            [disabled]= "is_loading"
+            class="btn btn--mr-10" (click)="goBack()">Volver</button>
+            <button 
+            (click) = "insertUser(this.form_provider.value)"
+            [class.spinner]= "is_loading"
+            [disabled] = "is_loading"
+            class="btn btn--primary">
+                 <span *ngIf="is_loading==false">Crear Usuario</span> 
+            </button>
+        </div>
+    </div>
+
+</div>

@@ -53,7 +53,7 @@ empresa.addBranch = (req, res) =>{
             console.log(err)
             res.send({ message: "Error de Conexion", status: false })
         }else{
-            res.send({ message: "Sucursal ingresada correctamente", status: false })
+            res.send({ message: "Sucursal ingresada correctamente", status: true })
         }
     })
 }
@@ -65,7 +65,7 @@ empresa.getAllEnterprises = async(req,res)=>{
     console.log(req.body)
     let verify_user = await verifyUser(req);
 
-    if(verify_user == false || verify_user.id_role > 2 || verify_user.status == 0){
+    if(verify_user == false || verify_user.status == 0){
         res.send({ status: false, message: "Error de Conexion" })
         return;
     }

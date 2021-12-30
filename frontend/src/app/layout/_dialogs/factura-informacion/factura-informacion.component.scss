@@ -392,6 +392,7 @@
   .activity__top { margin-bottom: 5px; }
   
   .wrap-buttons {
+    width: 100%;
     margin-top: auto;
   }
   
@@ -550,4 +551,5 @@ resize: none;
   flex-direction: column;
   height: calc( 100% - 55px);
   overflow-y: auto;
+  width: 100%;
 }

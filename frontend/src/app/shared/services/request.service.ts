@@ -27,6 +27,7 @@ export class RequestService {
       this.storage = JSON.parse(localStorage.getItem("session")  || "");
       this.id_user = this.storage.token
       this.id_rol = this.storage.role
+      console.log("yess", this.storage)
     }
 
     this.filter_parameters = {
@@ -111,16 +112,33 @@ export class RequestService {
     return this.http.post(this.api + "/updateUser", data)
   }
 
-  uploadBankAccounts(data): Observable<any>{
-    return this.http.post(this.api + "/uploadBankAccounts", data)
+  getFilesPerfil():Observable<any>{
+    return this.http.post(this.api + "/getFilesPerfil",{ id_user: this.id_user })
   }
 
-  getBankAccounts(id):Observable<any>{
-    return this.http.get(this.api + "/getBankAccounts/"+ id)
+  uploadMonthlyCompliance(data):Observable<any>{
+    return this.http.post(this.api + "/uploadMonthlyCompliance",data)
   }
 
-  
+  getLastMonthlyCompliance(data):Observable<any>{
+    return this.http.post(this.api + "/getLastMonthlyCompliance",data)
+  }
 
+  updateMonthlyCompliance(data):Observable<any>{
+    return this.http.post(this.api + "/updateMonthlyCompliance",data)
+  }
+
+  uploadFilesPerfil(data):Observable<any>{
+    return this.http.post(this.api + "/uploadFilesPerfil", data)
+  }
+
+  updateFilePerfil(data): Observable<any>{
+    return this.http.post(this.api + "/updateFilePerfil", data)
+  }
+
+  getInvoicesInProgress(data):Observable<any>{
+    return this.http.post(this.api + "/getInovicesInProgress",data)
+  }
 
   logout() {
     localStorage.removeItem('session');

@@ -2,7 +2,7 @@
     display: flex;
     flex-direction:column;
     width:100%;
-    height:100%;
+    height:100wh;
     max-width:1400px;
     padding-top:25px;
   }
@@ -108,12 +108,13 @@
         background: #EDEEF6;
         border-radius: 8px;
         border: dotted 1px black;
-        height: 200px;
+        height: 150px;
         position: relative;
         display: flex;
         justify-content: center;
         align-items: center;
         color: #0090F3;
+        margin-bottom: 20px;
     }
 
     .inputFile{
@@ -121,4 +122,30 @@
         position: absolute;
         width: 100%;
         height: 100%;
+    }
+
+    .files_container{
+      margin-top: 60px;
+    }
+
+    .file_upload{
+      display: flex;
+      height: 60px;
+      border-radius: 8px;
+      width: 100%;
+      max-width: 600px;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #edeef6;
+      padding: 0 20px;
+      margin-bottom: 20px;
+    }
+  
+    .file_upload > div:first-child{
+      display: flex;
+      align-items: center;
+    }
+
+    .btn--primary{
+      margin-top: 15px;
     }

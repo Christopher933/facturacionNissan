@@ -17,6 +17,8 @@ export class ContrareciboComponent implements OnInit {
   is_loading = false;
   storage;
   perfil_info;
+  invoices_pending:Array<any> = [];
+  array_invoices:Array<any>= [];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -114,9 +116,33 @@ export class ContrareciboComponent implements OnInit {
     this.request_service.getPerfil(this.info_factura.id_user)
     .subscribe(res=>{
       this.perfil_info = res;
-      console.log("perfil",this.perfil_info)
+      this.getInvoicesInProgress()
     })
     
+  }
+
+  getInvoicesInProgress(){
+    let data = {
+      id_user : this.info_factura.id_user,
+      id_invoice: this.info_factura.id_invoice
+    }
+    this.request_service.getInvoicesInProgress(data)
+    .subscribe(res=>{
+      if(res.status){
+        this.invoices_pending = res.result;
+      }
+    })
+  }
+
+  addInvoiceArray(index:number, invoice){
+    console.log(this.array_invoices.indexOf(invoice.id_invoice))
+    if(this.array_invoices.indexOf(invoice) > -1){
+      let i = this.array_invoices.indexOf(invoice)
+      this.array_invoices.splice(i,1);
+    }else{
+      this.array_invoices.push(invoice);
+    }
+    console.log(this.array_invoices)
   }
 
 }

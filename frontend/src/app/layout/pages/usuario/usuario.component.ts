@@ -9,6 +9,7 @@ import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, pluck } from 'rxjs/operators';
 import { FacturaInformacionComponent } from '../../_dialogs/factura-informacion/factura-informacion.component';
 import { InfoUserDialogComponent } from '../../_dialogs/info-user-dialog/info-user-dialog.component';
+import { AddUserComponent } from '../../_dialogs/add-user/add-user.component';
 
 @Component({
   selector: 'app-usuario',
@@ -58,6 +59,7 @@ export class UsuarioComponent implements OnInit {
       id_role : ["", Validators.required],
       phone: ["",Validators.required],
       email : ["",Validators.required],
+      id_regimen: ["",Validators.required],
     });
    }
 
@@ -116,12 +118,18 @@ export class UsuarioComponent implements OnInit {
       this.form_user.get("rfc").clearValidators();
       this.form_user.get("company_name").clearValidators();
       this.form_user.get("phone").clearValidators();
+      this.form_user.get("id_regimen").clearValidators();
       this.form_user.updateValueAndValidity();
       return;
     }
 
     if(this.submenu_selected==2){
       this.form_user.reset();
+      this.form_user.get("rfc").setValidators(Validators.required);
+      this.form_user.get("company_name").setValidators(Validators.required);
+      this.form_user.get("phone").setValidators(Validators.required);
+      this.form_user.get("id_regimen").setValidators(Validators.required);
+      this.form_user.updateValueAndValidity();
       this.form_user.controls.id_role.setValue(3);
       this.form_user.updateValueAndValidity();
       return;
@@ -255,6 +263,13 @@ export class UsuarioComponent implements OnInit {
       this.request_service.filter_users.limit = value;
       this.resetPage();
       this.getAllUsers();
+    }
+
+    openDialogAddUser(){
+      let dialog = this.dialog.open(AddUserComponent, {
+        width: "600px",
+        height: "auto",
+      })
     }
 
 }

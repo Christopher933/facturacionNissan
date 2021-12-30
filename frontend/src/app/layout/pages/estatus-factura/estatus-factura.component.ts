@@ -37,6 +37,7 @@ export class EstatusFacturaComponent implements OnInit {
   storage= JSON.parse(localStorage.getItem("session"));
   facturas = [];
   perfil = [];
+  monthly_compliance: any;
 
   
 
@@ -51,6 +52,7 @@ export class EstatusFacturaComponent implements OnInit {
   ngOnInit(): void {
     this.getInvoicesByParameter()
     this.getFacturas();
+    
     
     this.admin_status=[
       {
@@ -84,7 +86,9 @@ export class EstatusFacturaComponent implements OnInit {
     let dialog= this.dialog.open(FacturaInformacionComponent,{
       width: "600px",
       height: "650px",
-      data : this.facturas[i],
+      data : {
+        info_factura: this.facturas[i],
+      }
     })
 
     dialog.afterClosed().subscribe(result=>{

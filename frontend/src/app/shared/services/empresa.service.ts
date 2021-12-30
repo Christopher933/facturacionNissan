@@ -12,6 +12,7 @@ export class EmpresaService {
 
   api = environment.API;
   filter_branchs;
+  filter_branchs_provider;
 
   constructor(
     private http: HttpClient,
@@ -20,6 +21,14 @@ export class EmpresaService {
   ) {
 
     this.filter_branchs = {
+      id_user: this.request_service.id_user,
+      is_active: "",
+      parameter: "",
+      page : 1,
+      limit: 10,
+    }
+
+    this.filter_branchs_provider = {
       id_user: this.request_service.id_user,
       is_active: "",
       parameter: "",
@@ -51,5 +60,21 @@ export class EmpresaService {
 
   updateBranch(data:object): Observable<any>{
     return this.http.post(this.api + "/updateBranch", data)
+  }
+
+  addBranchProvider(data:object): Observable<any>{
+    return this.http.post(this.api + "/addBranchProvider", data)
+  }
+
+  updateBranchProvider(data:object): Observable<any>{
+    return this.http.post(this.api + "/updateBranchProvider", data)
+  }
+
+  getAllBranchsProvider(): Observable<any>{
+    return this.http.post(this.api + "/getAllBranchsProvider", this.filter_branchs_provider)
+  }
+
+  getBranch(data):Observable<any>{
+    return this.http.post(this.api + "/getBranch", data)
   }
 }

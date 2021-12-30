@@ -14,6 +14,7 @@ import { PaymentComponent } from '../payment/payment.component';
 export class FacturaInformacionComponent implements OnInit {
 
   info_factura;
+  monthly_compliance =null;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -21,11 +22,13 @@ export class FacturaInformacionComponent implements OnInit {
     private dialog_ref: MatDialogRef<FacturaInformacionComponent>,
     public request_service: RequestService,
   ) {
-     this.info_factura = data;
-     console.log(this.info_factura)
+     this.info_factura = data.info_factura;
+
+     console.log(this.data)
    }
 
   ngOnInit(): void {
+    this.getLastMonthlyCompliance();
   }
 
   closeDialog(){
@@ -50,8 +53,8 @@ export class FacturaInformacionComponent implements OnInit {
 
   openDialogContrarecibo(){
     let dialog= this.dialog.open(ContrareciboComponent,{
-      width: '500px',
-      height: '400px',
+      width: '600px',
+      height: 'auto',
       data: this.info_factura
     })
 
@@ -83,6 +86,27 @@ export class FacturaInformacionComponent implements OnInit {
     .subscribe(res=>{
       console.log("data",res)
       FileSaver.saveAs(res, "pago");
+    })
+  }
+
+  downloadMonthlyCompliance(path){
+    this.request_service.downloadFile(path)
+    .subscribe(data =>{
+      FileSaver.saveAs(data, "Opinion_cumplimiento");
+    })
+  }
+
+  getLastMonthlyCompliance(){
+    let data = {
+      id_user: this.info_factura.id_user
+    }
+
+    this.request_service.getLastMonthlyCompliance(data)
+    .subscribe(res=>{
+      console.log(res)
+      if(res.status){
+        this.monthly_compliance = res.result;
+      }
     })
   }
 }

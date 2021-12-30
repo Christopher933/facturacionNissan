@@ -20,6 +20,9 @@ import { PerfilDocumentsComponent } from './_dialogs/perfil-documents/perfil-doc
 import { EmpresasComponent } from './pages/empresas/empresas.component';
 import { AddEnterpriseComponent } from './_dialogs/add-enterprise/add-enterprise.component';
 import { AddBranchComponent } from './_dialogs/add-branch/add-branch.component';
+import { AddBranchProviderComponent } from './_dialogs/add-branch-provider/add-branch-provider.component';
+import { AddMonthlyComplianceComponent } from './_dialogs/add-monthly-compliance/add-monthly-compliance.component';
+import { AddUserComponent } from './_dialogs/add-user/add-user.component';
 
 
 
@@ -40,6 +43,9 @@ import { AddBranchComponent } from './_dialogs/add-branch/add-branch.component';
     EmpresasComponent,
     AddEnterpriseComponent,
     AddBranchComponent,
+    AddBranchProviderComponent,
+    AddMonthlyComplianceComponent,
+    AddUserComponent,
   ],
   imports: [
     CommonModule,

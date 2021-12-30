@@ -5,31 +5,29 @@ user=[];
 
 user.insertUser= (req,res)=>{
     console.log(req.body)
-    const {user_name,password, rfc,company_name, phone, email, id_role} = req.body;
-    sql= "insert into user values (null, ?,?,?,?,?) "
-    sql2= "insert into provider_information values (null, ?,?,?,?)"
-    response = false;
-    let id;
+    let id_user = req.body.id_user;
+    let user_name = req.body.user_name;
+    let password = req.body.password;
+    let id_role = req.body.id_role;
+    let email = req.body.email;
+    let status = 1;
+    let id_branch = req.body.id_branch;
+    let phone = req.body.phone || '';
+    let company_name = req.body.company_name || '';
+    let rfc = req.body.rfc || '';
+    let id_regimen = req.body.id_regimen || null;
+    console.log("phone",phone)
 
-    connection.query(sql,[user_name,password,id_role,email,1],(err,row)=>{
-        let id = row.insertId;
+    let query = `call facturacionnissan.proc_add_user(?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?);`
+
+    connection.query(query, [id_user, user_name, password, id_role, email, status, id_branch, phone, company_name,rfc,id_regimen], (err, rows)=>{
         if(err){
-            response= false;
+            res.send({ message: "Error de conexion", status: false })
         }else{
-            response= true;
-        }
-        if(id_role==3){
-            connection.query(sql2,[phone, company_name,rfc,id],(err,res)=>{
-                if(err){
-                    response= false;
-                }else{
-                    response= true;
-                }
-            })
+            console.log(rows)
+            res.send({ message: "Usuario agregado correctamente", status: true })
         }
     })
-
-    res.send(response);
 }
 
 user.getAllUsers = async(req,res)=>{

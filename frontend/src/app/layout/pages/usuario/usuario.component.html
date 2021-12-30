@@ -3,64 +3,14 @@
       <h1 class="main_title">Usuarios</h1>
     </div>
     <div class="submenu_container">
-      <div class="sudmenu_items" [class.select_submenu]="submenu_selected==1" (click)="selectSubmenu(1)">Admin / Gestor</div>
-      <div class="sudmenu_items" [class.select_submenu]="submenu_selected==2" (click)="selectSubmenu(2)">Proveedor</div>
-      <div class="sudmenu_items" [class.select_submenu]="submenu_selected==3" (click)="selectSubmenu(3)">Gestionar Usuarios</div>
+      <div class="sudmenu_items" [class.select_submenu]="submenu_selected==3" (click)="selectSubmenu(1)">Gestionar Usuarios</div>
     </div>
-    <form class="inputs_container" [formGroup]="form_user" *ngIf="submenu_selected==1">
-      <div class="input_wrap" [class.error]="f.user_name.errors  && is_sumitted">
-        <span class="input_label">Nombre de Empresa <span *ngIf="f.user_name.errors  && is_sumitted">*</span></span>
-        <input class="actual_input" type="text"  formControlName="user_name" [class.error]="f.user_name.errors  && is_sumitted">
-      </div>
-      <div class="input_wrap" [class.error]="f.password.errors  && is_sumitted">
-        <span class="input_label">Contraseña<span *ngIf="f.password.errors  && is_sumitted">*</span></span>
-        <input class="actual_input" type="text" formControlName="password" [class.error]="f.password.errors  && is_sumitted">
-      </div>
-      <div class="input_wrap" [class.error]="f.email.errors  && is_sumitted">
-        <span class="input_label">Email<span *ngIf="f.email.errors  && is_sumitted">*</span></span>
-        <input class="actual_input" type="text" formControlName="email" [class.error]="f.email.errors  && is_sumitted">
-      </div>
-      <div class="input_wrap" [class.error]="f.id_role.errors  && is_sumitted">
-        <span class="input_label">Tipo de usuario<span *ngIf="f.id_role.errors  && is_sumitted">*</span></span>
-        <select class="actual_input" formControlName="id_role" [class.error]="f.id_role.errors  && is_sumitted">
-            <option value=""selected disabled>Elige una opcion</option>
-            <option value="1">Administrador</option>
-            <option value="2">Gestor</option>
-        </select>
-      </div>
-    </form>
+    
 
-    <form class="inputs_container" [formGroup]="form_user" *ngIf="submenu_selected==2">
-      <div class="input_wrap" [class.error]="f.user_name.errors  && is_sumitted">
-        <span class="input_label">Nombre de usuario <span *ngIf="f.user_name.errors  && is_sumitted">*</span></span>
-        <input class="actual_input" type="text"  formControlName="user_name" [class.error]="f.user_name.errors  && is_sumitted">
-      </div>
-      <div class="input_wrap" [class.error]="f.password.errors  && is_sumitted">
-        <span class="input_label">Contraseña<span *ngIf="f.password.errors  && is_sumitted">*</span></span>
-        <input class="actual_input" type="text" formControlName="password" [class.error]="f.password.errors  && is_sumitted">
-      </div>
-      <div class="input_wrap" [class.error]="f.rfc.errors  && is_sumitted">
-        <span class="input_label">RFC<span *ngIf="f.rfc.errors  && is_sumitted">*</span></span>
-        <input class="actual_input" type="text" formControlName="rfc" [class.error]="f.rfc.errors  && is_sumitted">
-      </div>
-      <div class="input_wrap" [class.error]="f.company_name.errors  && is_sumitted">
-        <span class="input_label">Razon Social<span *ngIf="f.company_name.errors  && is_sumitted">*</span></span>
-        <input class="actual_input" type="text" formControlName="company_name" [class.error]="f.company_name.errors  && is_sumitted">
-      </div>
-      <div class="input_wrap" [class.error]="f.phone.errors  && is_sumitted">
-        <span class="input_label">Telefono<span *ngIf="f.phone.errors  && is_sumitted">*</span></span>
-        <input class="actual_input" type="text" formControlName="phone" [class.error]="f.phone.errors  && is_sumitted">
-      </div>
-      <div class="input_wrap" [class.error]="f.email.errors  && is_sumitted">
-        <span class="input_label">Email<span *ngIf="f.email.errors  && is_sumitted">*</span></span>
-        <input class="actual_input" type="text" formControlName="email" [class.error]="f.email.errors  && is_sumitted">
-      </div>
-    </form>
-
-    <div class = "user_container" *ngIf="submenu_selected==3">
+    <div class = "user_container" *ngIf="submenu_selected==1">
     <div class="row row--mb-10">
       <form class="form">
-          <div class="col col--flex col--flex-align-center">
+          <div class="col col--flex col--flex-align-center" style="width: 100%;">
               <div class="wrap-search">
                   <input
                       #search_input
@@ -81,6 +31,14 @@
                   </ng-multiselect-dropdown>
                   <!-- status -->
               </div>
+              <div class = "add_button" (click) = "openDialogAddUser()">
+                <span>
+                    AÑADIR
+                </span>
+                <span class="material-icons-outlined">
+                    add_circle_outline
+                </span>
+            </div>
           </div>
       </form>
   </div>
@@ -177,22 +135,4 @@
   </div>
     </div>
   
-
-    <div class="buttons_container" *ngIf="submenu_selected!=3">
-      <div class="buttons_section">
-        <span class="previous_container">
-          <img class="img_arrow" src="./assets/chevron_left_black_24dp.svg">
-          <span>
-            Previous Step
-          </span>
-        </span>
-      </div>
-      <div  class="buttons_section">
-        <button class="btn btn--primary" (click)="createUser()">
-          <span>
-            Crear Usuario
-          </span>
-        </button>
-      </div>
-    </div>  
 </div>

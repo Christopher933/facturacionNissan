@@ -10,6 +10,7 @@ const contrarecibo = require ("../controllers/contrarecibo.controller")
 const pago = require("../controllers/pago.controller")
 const filter = require("../controllers/filters")
 const empresa = require("../controllers/empresas")
+const sucursalesProveedor = require("../controllers/sucursalesProveedor")
 
 const download = require("../controllers/downloadFile.controller")
 router.post("/auth",authController.authentication);
@@ -40,10 +41,6 @@ router.post("/insertPayment",pago.upload,pago.sendPago)
 
 router.post("/downloadPayment",pago.downloadPayment)
 
-router.post("/uploadBankAccounts",perfilController.upload,perfilController.uploadBankAccounts)
-
-router.get("/getBankAccounts/:id", perfilController.getBankAccounts)
-
 router.post("/addEnterprise", empresa.addEnterprise)
 
 router.post("/getEnterprises", empresa.getAllEnterprises)
@@ -55,6 +52,28 @@ router.post("/addBranch", empresa.addBranch);
 router.post("/getAllBranchs", empresa.getAllBranchs)
 
 router.post("/updateBranch", empresa.updateBranch)
+
+router.post("/addBranchProvider", sucursalesProveedor.addBranch)
+
+router.post("/getAllBranchsProvider", sucursalesProveedor.getAllBranchs)
+
+router.post("/updateBranchProvider", sucursalesProveedor.updateBranch)
+
+router.post("/uploadMonthlyCompliance",perfil.upload, perfil.uploadMonthlyCompliance)
+
+router.post("/getLastMonthlyCompliance", perfil.getLastMonthlyCompliance)
+
+router.post("/getFilesPerfil",perfil.getFilesPerfil)
+
+router.post("/updateMonthlyCompliance", perfil.upload,perfil.updateMonthlyCompliance)
+
+router.post("/uploadFilesPerfil", perfil.upload, perfil.uploadFilesPerfil)
+
+router.post("/updateFilePerfil", perfil.upload, perfil.updateFilePerfil)
+
+router.post("/getBranch", sucursal.getBranch)
+
+router.post("/getInovicesInProgress",contrarecibo.getInvoicesInProgress)
 
 
 module.exports = router;
