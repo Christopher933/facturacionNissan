@@ -32,6 +32,10 @@
                     >
                         clear
                 </span>
+                <select name="" id="" class="filter" (change)= "getInvoicesByBranch($event.target.value)">
+                    <option selected value = "">Todas las empresas</option>
+                    <option value="{{ branch.id_branch }}" *ngFor = "let branch of branchs">{{ branch.name_enterprise }} - {{ branch.name_branch }}</option>
+                </select>
             </div>
         </div>
     </form>
@@ -81,11 +85,10 @@
                         [ngClass]="{
                         'status_blue': factura.id_status ==1,
                         'status_orange': factura.id_status ==2,
-                        'status_green': factura.id_status ==3
+                        'status_green': factura.id_status ==3,
+                        'status_red': factura.id_status ==4
                     }">
-                        <span *ngIf="factura.id_status ==1">En revision </span>
-                        <span *ngIf="factura.id_status ==2">Contrarecibo</span>
-                        <span *ngIf="factura.id_status ==3">Pagada</span>
+                        <span>{{ factura.name_status }}</span>
                     </span>
                 </td>
                 <td class="table__td">

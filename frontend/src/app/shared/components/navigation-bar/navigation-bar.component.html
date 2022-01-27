@@ -6,6 +6,10 @@
     <div class="nav_content">
       <a class="nav_item"
       routerLink="/layout/perfil" routerLinkActive="active">
+        <span class="material-icons-outlined warning_icon" 
+        *ngIf = "!this.request_service.is_monthly_compliance && this.request_service.id_role == 3">
+          error_outline
+        </span>
         <div class="item_icon">
           <span class="circle_number"  routerLinkActive="active">1</span>
         </div>
@@ -31,6 +35,9 @@
       </a>
 
       <div class="nav_item" routerLink="/layout/notificaciones" routerLinkActive="active">
+        <div class = "notification_icon">
+          <span>{{ this.notifications_service.no_read }}</span>
+        </div>
         <div class="item_icon">
           <span class="circle_number" routerLinkActive="active">4</span>
         </div>
@@ -54,10 +61,22 @@
         </div>
       </div>
 
+      <div class="nav_item " routerLink="/layout/contrarecibo" routerLinkActive="active">
+        <div class="item_icon">
+          <span class="circle_number" routerLinkActive="active">6</span>
+        </div>
+        <div class="item_text">
+          Estatus de Contrarecibo
+        </div>
+        <div class="item_arrow" routerLinkActive="active">
+          <img class="arrow_icon" src="./assets/east_black_24dp.svg" >
+        </div>
+      </div>
+
       <div class="nav_item"
       routerLink="/layout/usuario" routerLinkActive="active">
         <div class="item_icon">
-          <span class="circle_number" routerLinkActive="active">6</span>
+          <span class="circle_number" routerLinkActive="active">7</span>
         </div>
         <div class="item_text">
           Usuarios
@@ -69,7 +88,7 @@
 
       <div class="nav_item " routerLink="/layout/empresas" routerLinkActive="active">
         <div class="item_icon">
-          <span class="circle_number" routerLinkActive="active">7</span>
+          <span class="circle_number" routerLinkActive="active">8</span>
         </div>
         <div class="item_text">
           Empresas

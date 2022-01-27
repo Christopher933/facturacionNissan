@@ -46,7 +46,6 @@ export class AddMonthlyComplianceComponent implements OnInit {
     public request_service: RequestService
   ) {
     this.monthly_compliance = data;
-    console.log(this.monthly_compliance)
     this.form_compliance = this.form_builder.group({
       id_user : this.request_service.id_user,
       archivo : ["", Validators.required],
@@ -83,6 +82,7 @@ export class AddMonthlyComplianceComponent implements OnInit {
     .subscribe(res =>{
       this.is_loading =false;
       if(res.status){
+        this.request_service.is_monthly_compliance = true;
         Swal.fire({
           icon: 'success',
           title: 'Success',

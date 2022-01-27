@@ -12,10 +12,23 @@
     </div>
     <div class="card__body" [formGroup]="form_payment">
         <div class="dialog_top">
-            <label class="file_container" for="inputFile" >
+            <label class="file_container" for="inputFile" *ngIf="file.length == 0">
                 <input class="inputFile" type="file" id="inputFile" (change)="uploadArchive($event.target.files[0])"> 
                 <span class="inputFile_text">Carga o arrastra el archivo pdf</span>
             </label>
+            <div class = "file_upload" *ngIf="file.length > 0">
+                <div>
+                    <span class="material-icons-outlined" style="color: #72e800;margin-right: 10px;">
+                        check_circle
+                    </span>
+                    <span>
+                        {{ name_file }}
+                    </span>
+                </div>
+                <span class="material-icons-outlined " style="cursor: pointer;" (click)= "deleteFile()">
+                    clear
+                </span>
+            </div>
         </div>
         <div class="dialog_footer">
             <button 

@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { EmpresaService } from 'src/app/shared/services/empresa.service';
+import { NotificationsService } from 'src/app/shared/services/notifications.service';
 import { RequestService } from 'src/app/shared/services/request.service';
 import Swal from 'sweetalert2'
 import { AddMonthlyComplianceComponent } from '../../_dialogs/add-monthly-compliance/add-monthly-compliance.component';
@@ -34,6 +35,7 @@ export class SubirFacturaComponent implements OnInit {
     public router: Router,
     public empresa_service: EmpresaService,
     public dialog: MatDialog,
+    public notifications_service: NotificationsService
   ) {
 
     this.form_factura=this.form_builder.group({
@@ -88,17 +90,23 @@ export class SubirFacturaComponent implements OnInit {
     this.openDialogMonthlyCompliance();
     return;
   }
+
+  let fe = this.form_factura.get("fecha_emision").value;
+  let fecha_emision = fe.split("T");
+  let fl = this.form_factura.get("fecha_limite").value;
+  let fecha_limite = fl.split("T");
   let now = new Date();
   this.shipping_date  = now.getFullYear() + "-" +(now.getMonth()+1) + "-"+ now.getDay();
    this.archives.forEach((item) => this.fd.append("archivos", item))
-   this.fd.append("issue_date",this.form_factura.get("fecha_emision").value);
-   this.fd.append("payment_deadline",this.form_factura.get("fecha_limite").value);
+   this.fd.append("issue_date", fecha_emision[0]);
+   this.fd.append("payment_deadline",fecha_limite[0]);
    this.fd.append("folio",this.form_factura.get("folio").value);
    this.fd.append("mount",this.form_factura.get("monto").value);
    this.fd.append("coin",this.form_factura.get("moneda").value);
-   this.fd.append("id_user",this.storage.token);
+   this.fd.append("id_user",this.request_service.id_user);
    this.fd.append("shipping_date",this.shipping_date)
    this.fd.append("id_branch",this.form_factura.controls.id_branch.value)
+   this.fd.append("user_name",this.request_service.user_name)
 
    this.request_service.uploadFactura(this.fd)
    .subscribe(res=>{
@@ -111,6 +119,7 @@ export class SubirFacturaComponent implements OnInit {
      this.fd.delete("id_user");
      this.fd.delete("shipping_date");
      this.fd.delete("id_branch");
+     this.fd.delete("user_name");
      if(res.status){
        this.section = 1;
        this.is_submitted = false;
@@ -142,6 +151,7 @@ export class SubirFacturaComponent implements OnInit {
     .subscribe(res=>{
       console.log(res)
       if(res.status){
+        this.request_service.is_monthly_compliance = true;
         this.monthly_compliance = res.result;
       }
     })
@@ -193,7 +203,7 @@ export class SubirFacturaComponent implements OnInit {
   }
 
   deleteFile(){
-      this.archives = null;
+      this.archives = [];
       this.form_factura.controls.pdf.setValue(null);
       this.form_factura.controls.xml.setValue(null);
       this.pdf_name = "";
@@ -211,6 +221,17 @@ export class SubirFacturaComponent implements OnInit {
       if(result){
         this.getLastMonthlyCompliance()
       }
+    })
+  }
+
+  getNotificationsNoRead(){
+    let data = {
+      id_user : this.request_service.id_user
+    }
+
+    this.notifications_service.getNotificationsNoRead(data)
+    .subscribe(res =>{
+      this.notifications_service.no_read = res.total;
     })
   }
 

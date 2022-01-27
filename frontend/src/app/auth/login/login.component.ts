@@ -60,15 +60,36 @@ export class LoginComponent implements OnInit {
       await this.request_service.reqPOST(`/auth`, data)
       .pipe(first()).subscribe(
         (data: any) => {
+          console.log(data)
           this.loading = false;
-          
-          var obj_storage = { 'token': data.id_user, 'role': data.id_role, 'name': data.user_name };
-          console.log(obj_storage)
-          // Put the object into storage
-          this.request_service.filter_parameters.id_user = data.id_user;
-          this.request_service.filter_parameters.id_rol = data.id_rol;
-          localStorage.setItem('session', JSON.stringify(obj_storage));
-          this.router.navigate(['/layout']);
+          if(data.status){
+            var obj_storage = { 
+              'id_user': data.result.id_user, 
+              'id_role': data.result.id_role, 
+              'user_name': data.result.user_name,
+              'id_branch': data.result.id_branch,
+              'id_enterprise': data.result.id_enterprise,
+              'first_name': data.result.first_name,
+              'last_name_1': data.result.last_name_1,
+              'last_name_2': data.result.last_name_2,
+             };
+            localStorage.setItem('session', JSON.stringify(obj_storage));
+            this.request_service.id_user = data.result.id_user;
+            this.request_service.id_role = data.result.id_role;
+            this.request_service.id_branch = data.result.id_branch;
+            this.request_service.user_name = data.result.user_name;
+            this.request_service.first_name = data.result.first_name;
+            this.request_service.last_name_1 = data.result.last_name_1;
+            this.request_service.last_name_2 = data.result.last_name_2;
+            this.request_service.filter_contrarecibo.id_user = data.result.id_user;
+            this.request_service.filter_parameters.id_user = data.result.id_user;
+            this.request_service.filter_parameters.id_role = data.result.id_role;
+            this.request_service.filter_users.id_user = data.result.id_user;
+            this.router.navigate(['/layout']);
+          }else{
+            this.msg_alert = data.message;
+            this.showMessageAlert('error');
+          }
         },
         (error: any) => {
           this.loading = false;

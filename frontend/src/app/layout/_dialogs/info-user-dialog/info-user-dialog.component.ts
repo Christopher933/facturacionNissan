@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { RequestService } from 'src/app/shared/services/request.service';
@@ -9,7 +9,7 @@ import Swal from 'sweetalert2'
   templateUrl: './info-user-dialog.component.html',
   styleUrls: ['./info-user-dialog.component.scss']
 })
-export class InfoUserDialogComponent implements OnInit {
+export class InfoUserDialogComponent implements OnInit, AfterViewInit {
 
   is_loading: boolean = false;
   is_sumitted = false;
@@ -30,16 +30,23 @@ export class InfoUserDialogComponent implements OnInit {
 
       this.form_user = form_builder.group({
         user_name: [{value:"",disabled: true}],
-        email: [{value:"",disabled: true}],
+        email: [""],
         company_name: [{value:"",disabled: true}],
         phone: [""],
         rfc: [{value:"",disabled: true}],
         id_role: [""],
-        status: [""]
+        status: [""],
+        first_name: [""],
+        last_name_1: [""],
+        last_name_2 : [""]
       })
   }
 
   ngOnInit(): void {
+    
+  }
+
+  ngAfterViewInit(){
     this.form_user.controls.user_name.setValue(this.data.user_name);
     this.form_user.controls.email.setValue(this.data.email);
     this.form_user.controls.company_name.setValue(this.data.company_name);
@@ -47,8 +54,10 @@ export class InfoUserDialogComponent implements OnInit {
     this.form_user.controls.rfc.setValue(this.data.rfc);
     this.form_user.controls.id_role.setValue(this.data.id_role);
     this.form_user.controls.status.setValue(this.data.status);
+    this.form_user.controls.first_name.setValue(this.data.first_name);
+    this.form_user.controls.last_name_1.setValue(this.data.last_name_1);
+    this.form_user.controls.last_name_2.setValue(this.data.last_name_2);
     this.form_user.updateValueAndValidity();
-    console.log(this.form_user.value)
   }
 
   closeDialog(){
@@ -60,6 +69,7 @@ export class InfoUserDialogComponent implements OnInit {
     let data = {
       ...this.form_user.value,
       id_user : this.info_user.id_user,
+      update_by : this.request_service.id_user
     }
 
     this.request_service.updateUser(data)

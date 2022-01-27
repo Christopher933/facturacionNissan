@@ -43,14 +43,45 @@
               [ngClass]="{
               'status_blue': info_factura.id_status ==1,
               'status_orange': info_factura.id_status ==2,
-              'status_green': info_factura.id_status ==3
+              'status_green': info_factura.id_status ==3,
+              'status_red': info_factura.id_status ==4
           }">
-                <span *ngIf="info_factura.id_status ==1">En revision </span>
-                <span *ngIf="info_factura.id_status ==2">Contrarecibo</span>
-                <span *ngIf="info_factura.id_status ==3">Pagada</span>
+                <span>{{ info_factura.name_status }}</span>
               </span>
             </div>
           </div>
+        </div>
+        <div class="col">
+          <p class="text text--sm text--color-gray">
+            Empresa
+            <span class="text text--semi-bold text--block">
+              {{ info_factura.name_enterprise }}
+            </span>
+          </p>
+        </div>
+        <div class="col" >
+          <p class="text text--sm text--color-gray">
+            Sucursal
+            <span class="text text--semi-bold text--block">
+              {{ info_factura.name_branch }}
+            </span>
+          </p>
+        </div>
+        <div class="col">
+          <p class="text text--sm text--color-gray">
+            Monto
+            <span class="text text--semi-bold text--block">
+              {{ info_factura.mount | currency }}
+            </span>
+          </p>
+        </div>
+        <div class="col">
+          <p class="text text--sm text--color-gray">
+            Moneda
+            <span class="text text--semi-bold text--block">
+              {{ info_factura.coin }}
+            </span>
+          </p>
         </div>
       </div>
       <form class="form" >
@@ -161,8 +192,9 @@
         <div class="wrap-buttons">
           <div class="row row--flex row--flex-end">
             <button type="submit"
-            class="btn btn--primary"  (click)="openDialogPayment()">
-              Enviar pago
+            *ngIf = "info_factura.id_status == 1 || info_factura.id_status == 4"
+            class="btn btn--primary" (click)="openDialogReject()">
+              Rechazar
             </button>
             <button type="submit"
             class="btn btn--primary"  (click)="openDialogContrarecibo()">

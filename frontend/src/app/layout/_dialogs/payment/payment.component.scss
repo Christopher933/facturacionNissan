@@ -89,6 +89,21 @@
     height: 100%;
 }
 
+.file_upload{
+  display: flex;
+  height: 40px;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #edeef6;
+  padding: 0 20px;
+}
+
+.file_upload > div:first-child{
+  display: flex;
+  align-items: center;
+}
+
   @keyframes spinner {
     to {transform: rotate(360deg);}
   }

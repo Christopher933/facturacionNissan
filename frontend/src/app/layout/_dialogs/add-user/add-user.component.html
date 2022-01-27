@@ -37,6 +37,36 @@
             </div>
             <div class="form_group">
                 <div class="label_text">
+                    Primer nombre
+                </div>
+                <input
+                [class.error] = "f_admin.first_name.errors && is_submitted"
+                formControlName = "first_name"
+                type= "text"
+                class="form_input">
+            </div>
+            <div class="form_group">
+                <div class="label_text">
+                    Nombre(s)
+                </div>
+                <input
+                [class.error] = "f_admin.last_name_1.errors && is_submitted"
+                formControlName = "last_name_1"
+                type= "text"
+                class="form_input">
+            </div>
+            <div class="form_group">
+                <div class="label_text">
+                    Segundo Apellido
+                </div>
+                <input
+                [class.error] = "f_admin.last_name_2.errors && is_submitted"
+                formControlName = "last_name_2"
+                type= "text"
+                class="form_input">
+            </div>
+            <div class="form_group">
+                <div class="label_text">
                     Empresa
                 </div>
                 <select 
@@ -83,6 +113,7 @@
                 <select 
                 [class.error] = "f_admin.id_role.errors && is_submitted"
                 name="" id="" class="form_input" formControlName = "id_role" placeholder="Selecciona empresa">
+                    <option value="" selected>Selecciona un tipo</option>
                     <option value="1">Administrador</option>
                     <option value="2">Gestor</option>
                 </select>
@@ -93,7 +124,7 @@
             [disabled]= "is_loading"
             class="btn btn--mr-10" (click)="goBack()">Volver</button>
             <button 
-            (click) = "insertUser(this.form_admin.value)"
+            (click) = "insertUser(this.form_admin)"
             [class.spinner]= "is_loading"
             [disabled] = "is_loading"
             class="btn btn--primary">
@@ -202,7 +233,7 @@
             [disabled]= "is_loading"
             class="btn btn--mr-10" (click)="goBack()">Volver</button>
             <button 
-            (click) = "insertUser(this.form_provider.value)"
+            (click) = "insertUser(this.form_provider)"
             [class.spinner]= "is_loading"
             [disabled] = "is_loading"
             class="btn btn--primary">

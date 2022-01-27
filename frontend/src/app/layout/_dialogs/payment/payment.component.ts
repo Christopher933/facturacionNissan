@@ -18,9 +18,10 @@ export class PaymentComponent implements OnInit {
   fd = new FormData();
   file = [];
   storage= JSON.parse(localStorage.getItem("session"));
-  info_factura;
+  info_contrarecibo;
   date_sent;
   perfil_info;
+  name_file: string;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -28,14 +29,13 @@ export class PaymentComponent implements OnInit {
     public form_builder: FormBuilder,
     public request_service: RequestService
   ) {
-    this.info_factura = this.data;
+    this.info_contrarecibo = this.data;
     this.form_payment = form_builder.group({
       pdf: ["",Validators.required]
     })
    }
 
   ngOnInit(): void {
-    this.getPerfilInfo();
   }
 
   closeDialog(){
@@ -44,64 +44,64 @@ export class PaymentComponent implements OnInit {
 
   uploadArchive(event:any){
     this.file.push(event);
+    this.name_file = event.name;
     this.form_payment.get("pdf").setValue(true);
-    console.log(event)
-    console.log(this.file)
+  }
 
+  deleteFile(){
+    this.name_file = "";
+    this.file = [];
+    this.form_payment.controls.pdf.setValue(null);
   }
 
   goSend(){
-    let now = new Date();
-    this.date_sent  = now.getFullYear() + "-" +(now.getMonth()+1) + "-"+ now.getDay();
-     this.fd.append("id_invoice",this.info_factura.id_invoice);
-     this.fd.append("folio",this.info_factura.folio);
-     this.fd.append("sent_date",this.date_sent );
-     this.fd.append("email",this.perfil_info.email );
-     this.fd.append("id_user",this.perfil_info.id_user );
-     this.file.forEach((item) => this.fd.append("archivo", item))
-  
-      if(this.form_payment.valid){
-        this.request_service.sendPayment(this.fd)
-        .subscribe(res=>{
-          this.fd.delete("id_invoice")
-          this.fd.delete("folio");
-          this.fd.delete("sent_date");
-          this.file = [];
-          this.form_payment.reset();
-          if(res.status){
-            Swal.fire({
-              icon: 'success',
-              title: 'Success',
-              text: 'Informacion de factura subida correctamente'
-            })
-            this.dialog_ref.close(true)
-            console.log(res);
-          }else{
-            Swal.fire({
-              icon: 'error',
-              title: 'Oops...',
-              text: res.message,
-            })
-          }
-  
-        })
-      }else{
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: 'Favor de llenar todos los datos'
-        })
-      }
-      
+    if(this.form_payment.invalid){
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Favor de llenar todos los datos'
+      })
+      return;
     }
 
-    getPerfilInfo(){
-      this.request_service.getPerfil(this.info_factura.id_user)
+     this.fd.append("id_contrarecibo",this.info_contrarecibo.id_contrarecibo);
+     this.fd.append("email",this.info_contrarecibo.email );
+     this.fd.append("created_by",this.request_service.id_user );
+     this.fd.append("company_name",this.info_contrarecibo.company_name );
+     this.fd.append("rfc",this.info_contrarecibo.rfc );
+     this.fd.append("id_user",this.info_contrarecibo.id_user );
+     this.fd.append("full_name",`${this.request_service.first_name} ${ this.request_service.last_name_1 }`);
+     this.file.forEach((item) => this.fd.append("archivo", item))
+
+      this.request_service.sendPayment(this.fd)
       .subscribe(res=>{
-        this.perfil_info = res;
-        console.log("perfil",this.perfil_info)
+        this.fd.delete("id_contrarecibo")
+        this.fd.delete("email");
+        this.fd.delete("sent_date");
+        this.fd.delete("archivo");
+        this.fd.delete("company_name");
+        this.fd.delete("rfc");
+        this.fd.delete("id_user");
+        this.fd.delete("full_name");
+        this.file = [];
+        this.form_payment.reset();
+        if(res.status){
+          Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: 'Informacion de factura subida correctamente'
+          })
+          this.dialog_ref.close(true)
+          console.log(res);
+        }else{
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: res.message,
+          })
+        }
+
       })
       
     }
-
 }

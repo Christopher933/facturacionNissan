@@ -131,7 +131,6 @@ export class EmpresasComponent implements OnInit, AfterViewInit {
   getBranchs(){
     this.empresa_service.getAllBranchs()
     .subscribe(res =>{
-      console.log(res)
       this.is_loading = false;
       this.branchs = res.result;
       this.totalPages(res.total);

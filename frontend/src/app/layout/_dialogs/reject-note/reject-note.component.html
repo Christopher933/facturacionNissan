@@ -1,0 +1,49 @@
+
+<div class="dialog">
+    <div class="dialog__header">
+        <h2 class="dialog__title">
+            Nota de rechazo de factura
+        </h2>
+        <div   class="close_dialog">
+            <span (click)="closeDialog()" class="material-icons-outlined pointer">
+                clear
+              </span>
+        </div>
+    </div>
+    <div class="card__body" [formGroup]="form_note">
+        <div class="dialog_top">
+            <div class="form__group">
+                <div class="label_container text_label" [class.error] = "f.subject.errors && is_submitted">
+                    Asunto<span *ngIf = "f.subject.errors && is_submitted"> *</span>
+                </div>
+                <input
+                type= "text"
+                formControlName= "subject"
+                class="form__control textarea_input">
+            </div>
+            <div class="form__group">
+                <div class="label_container text_label" [class.error] = "f.note.errors && is_submitted">
+                    Nota<span *ngIf= "f.note.errors && is_submitted"> *</span>
+                </div>
+                <textarea 
+                formControlName= "note"
+                name="" id="" cols="30" rows="10"
+                class="form__control textarea_input">
+
+                </textarea>
+            </div>
+        </div>
+        <div class="dialog_footer">
+            <button 
+            [disabled]= "is_loading"
+            class="btn btn--mr-10" (click)="closeDialog()">Cerrar</button>
+            <button 
+            [class.spinner]= "is_loading"
+            [disabled] = "is_loading"
+            class="btn btn--primary" >
+                 <span *ngIf="is_loading==false" (click)="sendNote()">Enviar Nota</span> 
+            </button>
+        </div>
+    </div>
+</div>
+

@@ -6,7 +6,12 @@
     <div class="submenu_container">
       <div class="sudmenu_items" [class.select_submenu]="submenu_selected==1" (click)="selectSubmenu(1)">Perfil</div>
       <div class="sudmenu_items" [class.select_submenu]="submenu_selected==2" (click)="selectSubmenu(2)">Mis sucursales</div>
-      <div class="sudmenu_items" [class.select_submenu]="submenu_selected==3" (click)="selectSubmenu(3)">Mis documentos</div>
+      <div class="sudmenu_items" [class.select_submenu]="submenu_selected==3" (click)="selectSubmenu(3)">
+          Mis documentos
+          <span class="material-icons-outlined warning_icon" *ngIf = "!this.request_service.is_monthly_compliance">
+            error_outline
+          </span>
+        </div>
     </div>
     <form class="inputs_container"  [formGroup]="form_perfil" *ngIf = "submenu_selected==1">
         <div class="input_wrap" *ngIf= "perfil.id_role==3">

@@ -28,7 +28,7 @@
   .card__body {
     display: flex;
     flex-direction: column;
-    padding: 30px;
+    padding: 20px;
     height: calc(100% - 60px);
   }
 
@@ -70,13 +70,13 @@
       min-height: 70px;
   }
 
+
+
   .invoices_container{
     width: 100%;
     height: 100%;
-    max-height: 600px;
-    overflow-y: scroll;
     display: flex;
-    margin-top: 30px;
+    margin-top: 15px;
     flex-direction: column;
   }
 
@@ -84,8 +84,15 @@
     margin-bottom: 15px;
   }
 
-  .invoices_container > div{
-    display: flex;
+  .table_body{
+    max-height: 270px;
+    overflow-y: scroll;
+    height: 100%;
+  }
+
+  .table_body > div{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     width: 100%;
     align-items: center;
     border: 1px solid #d5d7e3;
@@ -94,8 +101,26 @@
     padding: 0 10px;
   }
 
-  .invoices_container > div > div{
-    margin-left: 15px;
+  .table_header{
+    background-color: #00558f;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    width: 100%;
+    align-items: center;
+    border: 1px solid #d5d7e3;
+    border-radius: 4px;
+    height: 40px;
+    padding: 0 10px;
+  }
+
+  .table_header > div{
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .check{
+    margin-right: 15px;
   }
 
   @keyframes spinner {

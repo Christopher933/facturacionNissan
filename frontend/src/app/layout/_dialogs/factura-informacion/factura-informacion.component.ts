@@ -4,6 +4,7 @@ import { RequestService } from 'src/app/shared/services/request.service';
 import * as FileSaver from 'file-saver';
 import { ContrareciboComponent } from '../contrarecibo/contrarecibo.component';
 import { PaymentComponent } from '../payment/payment.component';
+import { RejectNoteComponent } from '../reject-note/reject-note.component';
 
 
 @Component({
@@ -53,7 +54,7 @@ export class FacturaInformacionComponent implements OnInit {
 
   openDialogContrarecibo(){
     let dialog= this.dialog.open(ContrareciboComponent,{
-      width: '600px',
+      width: '900px',
       height: 'auto',
       data: this.info_factura
     })
@@ -65,18 +66,6 @@ export class FacturaInformacionComponent implements OnInit {
     })
   }
 
-  openDialogPayment(){
-    let dialog= this.dialog.open(PaymentComponent,{
-      width: '500px',
-      height: '400px',
-      data: this.info_factura
-    })
-    dialog.afterClosed().subscribe(result =>{
-      if(result){
-        this.dialog_ref.close(true);
-      }
-    })
-  }
 
   downloadPayment(id: any){
     let data ={
@@ -106,6 +95,20 @@ export class FacturaInformacionComponent implements OnInit {
       console.log(res)
       if(res.status){
         this.monthly_compliance = res.result;
+      }
+    })
+  }
+
+  openDialogReject(){
+    let dialog = this.dialog.open(RejectNoteComponent, {
+      width: '700px',
+      height: 'auto',
+      data: this.info_factura
+    })
+
+    dialog.afterClosed().subscribe(result =>{
+      if(result){
+        this.dialog_ref.close(true);
       }
     })
   }

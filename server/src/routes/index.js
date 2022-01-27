@@ -11,6 +11,7 @@ const pago = require("../controllers/pago.controller")
 const filter = require("../controllers/filters")
 const empresa = require("../controllers/empresas")
 const sucursalesProveedor = require("../controllers/sucursalesProveedor")
+const notification = require("../controllers/notificationsController")
 
 const download = require("../controllers/downloadFile.controller")
 router.post("/auth",authController.authentication);
@@ -74,6 +75,18 @@ router.post("/updateFilePerfil", perfil.upload, perfil.updateFilePerfil)
 router.post("/getBranch", sucursal.getBranch)
 
 router.post("/getInovicesInProgress",contrarecibo.getInvoicesInProgress)
+
+router.post("/getNotifications", notification.getNotifications)
+
+router.post("/getNotificationsNoRead", notification.getNotitficationsNoRead)
+
+router.post("/readNotification", notification.readNotification)
+
+router.post("/getAllContrarecibos", contrarecibo.getAllContrarecibos)
+
+router.post("/getInvoicesByContrarecibo", contrarecibo.getInvoicesByContrarecibo)
+
+router.post("/rejectInvoice", uploadController.rejectInvoice)
 
 
 module.exports = router;

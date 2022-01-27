@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RequestService } from 'src/app/shared/services/request.service';
@@ -16,7 +16,7 @@ import { AddUserComponent } from '../../_dialogs/add-user/add-user.component';
   templateUrl: './usuario.component.html',
   styleUrls: ['./usuario.component.scss']
 })
-export class UsuarioComponent implements OnInit {
+export class UsuarioComponent implements OnInit, AfterViewInit {
 
   form_user: FormGroup;
   is_sumitted = false;
@@ -64,7 +64,6 @@ export class UsuarioComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.getAllUsers();
     
     this.admin_status=[
       {
@@ -87,6 +86,13 @@ export class UsuarioComponent implements OnInit {
       itemsShowLimit: 1,
       allowSearchFilter: true
     };
+
+    this.getAllUsers();
+    
+  }
+
+  ngAfterViewInit(){
+    this.getUsersByParameter();
   }
 
   createUser(){
@@ -164,7 +170,7 @@ export class UsuarioComponent implements OnInit {
   getAllUsers(){
     this.request_service.getAllUsers()
     .subscribe(res =>{
-      console.log(res)
+      console.log("users",res)
       this.is_loading = false;
       this.users = res.result;
       this.totalPages(res.total);
@@ -269,6 +275,12 @@ export class UsuarioComponent implements OnInit {
       let dialog = this.dialog.open(AddUserComponent, {
         width: "600px",
         height: "auto",
+      })
+
+      dialog.afterClosed().subscribe(result=>{
+        if(result){
+          this.getAllUsers();
+        }
       })
     }
 

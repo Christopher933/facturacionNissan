@@ -3,7 +3,7 @@
     flex-direction:column;
     background:white;
     height:100%;
-    width:320px;
+    width:270px;
     padding-left:30px;
     padding-top:20px;
     background: var(---ffffff) 0% 0% no-repeat padding-box;
@@ -28,6 +28,7 @@
     height:55px;
     align-items:center;
     color: #7E84A3;
+    position: relative;
   }
   .nav_item.active {
     /* background-color: red; */
@@ -116,3 +117,27 @@
     font-size: 22px;
   }
   
+  .notification_icon{
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    right: 40px;
+    top: 8px;
+  }
+
+  .notification_icon > span{
+    color: white;
+    font-size: 10px;
+  }
+
+  .warning_icon{
+    color: red;
+    position: absolute;
+    right: 85px;
+    top: 8px;
+  }

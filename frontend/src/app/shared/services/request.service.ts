@@ -15,8 +15,16 @@ export class RequestService {
   storage:any;
   filter_parameters:any;
   filter_users:any;
-  id_user = ""
-  id_rol = ""
+  filter_contrarecibo:any
+  id_user:string = ""
+  id_role:number;
+  user_name:string;
+  id_branch:number;
+  id_enterprise:number;
+  is_monthly_compliance: boolean = false;
+  first_name: string;
+  last_name_1 :string;
+  last_name_2: string;
 
 
   constructor(
@@ -24,25 +32,40 @@ export class RequestService {
     public router: Router,
   ) { 
     if(JSON.parse(localStorage.getItem("session"))){
-      this.storage = JSON.parse(localStorage.getItem("session")  || "");
-      this.id_user = this.storage.token
-      this.id_rol = this.storage.role
-      console.log("yess", this.storage)
+      this.storage = JSON.parse(localStorage.getItem("session"));
+      this.id_user = this.storage.id_user
+      this.id_role = this.storage.id_role
+      this.user_name = this.storage.user_name;
+      this.id_branch = this.storage.id_branch;
+      this.id_enterprise = this.storage.id_enterprise;
+      this.first_name = this.storage.first_name;
+      this.last_name_1 = this.storage.last_name_1;
+      this.last_name_2 = this.storage.last_name_2;
     }
 
     this.filter_parameters = {
       id_user : this.id_user ,
-      id_rol : this.id_rol ,
-      issue_date: "",
+      id_role : this.id_role ,
+      issue_date: null,
+      id_status: "",
+      parameter: "",
+      page : 1,
+      limit: 10,
+      id_branch:  ""
+    }
+
+    this.filter_users={
+      id_user: this.id_user,
       id_status: "",
       parameter: "",
       page : 1,
       limit: 10,
     }
 
-    this.filter_users={
+    this.filter_contrarecibo={
       id_user: this.id_user,
-      id_status: "",
+      id_status_contrarecibo: "",
+      promise_date: null,
       parameter: "",
       page : 1,
       limit: 10,
@@ -138,6 +161,18 @@ export class RequestService {
 
   getInvoicesInProgress(data):Observable<any>{
     return this.http.post(this.api + "/getInovicesInProgress",data)
+  }
+
+  getAllContrarecibo(): Observable<any>{
+    return this.http.post(this.api + "/getAllContrarecibos", this.filter_contrarecibo)
+  }
+
+  getInvoicesByContrarecibo(data):Observable<any>{
+    return this.http.post(this.api + "/getInvoicesByContrarecibo", data)
+  }
+
+  rejectInvoice(data): Observable<any>{
+    return this.http.post(this.api + "/rejectInvoice", data)
   }
 
   logout() {

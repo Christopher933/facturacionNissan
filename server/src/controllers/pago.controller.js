@@ -5,7 +5,7 @@ const pdf = require("html-pdf")
 const path = require("path")
 const fs = require("fs")
 const multer = require('multer');
-const { query } = require("../database.js");
+const notification = require('../controllers/notificationsController')
 
 
 const storage = multer.diskStorage({
@@ -23,57 +23,25 @@ exports.upload = upload.array('archivo')
 
 exports.sendPago = async (req, res) =>{
     console.log(req.body)
-    console.log(req.files)
-    let {folio, date_sent } = req.body;
+    let date = new Date();
+    var temp_string = date.toISOString();
+    let format_date = temp_string.split("T");
     let path_pdf = req.files[0].path;
+    const { id_contrarecibo,id_user, created_by, email, company_name, rfc, full_name} = req.body
+    
+    let query = "call proc_insert_payment(?,?,?,?,?,?,?)"
 
-      id_payment = await insertPago(req, path_pdf);
-
-      if(id_payment == false){
-          res.send({ message: "Error de conexion", status:false })
-          return;
-      }
-      insert_id = await insertIdPago(req, id_payment);
-
-      if(insert_id == false){
-          res.send({ message: "Error de Conexion", status: false })
-          return
-      }else{
-          sendEmail(req, path_pdf)
-          res.send({ message: "Pago ingresado correctamente", status: true })
-      }
-
-}
-
-async function insertPago(req, path_pdf){
-    return new Promise((resolve, reject)=>{
-        let query = "Insert into payment values(null, ?, ?)"
-
-        connection.query(query,[req.body.date_sent, path_pdf], (err, row)=>{
-            if(err){
-                console.log(err)
-                resolve(false)
-            }else{
-                resolve(row.insertId)
-            }
-        })
+    connection.query(query,[id_contrarecibo,id_user, created_by,path_pdf, company_name, rfc, full_name], (err, row)=>{
+        if(err){
+            console.log(err)
+            res.send({ message: "Error de Conexion", status: false  })
+        }else{
+            sendEmail(email , path_pdf, row[0][0].id)
+            res.send({ message: "Pago Ingresado correctamente", status: true })
+        }
     })
 }
 
-async function insertIdPago(req,id_payment){
-    return new Promise((resolve, reject)=>{
-        let query = "Update invoice set  id_payment = ?, id_status = 3 where id_invoice = ?"
-
-        connection.query(query,[id_payment, req.body.id_invoice],(err, row)=>{
-            if(err){
-                console.log(err)
-                resolve(false)
-            }else{
-                resolve(true)
-            }
-        })
-    })
-}
 
 exports.downloadPayment = async (req, res) =>{
     payment = await findPayment(req.body.id_payment) 
@@ -101,15 +69,16 @@ async function findPayment(id_payment){
     })
 }
 
-function sendEmail(req, file){
+
+function sendEmail(email, file, folio){
     fs.readFile(file,(err,data)=>{
         let ext = path.extname(file)
         var mailOptions = {
             from: 'christopher.sandoval93@gmail.com',
-            to: req.body.email,
+            to: email,
             subject: 'Comprobante de pago Nissan',
             text: 'That was easy!',
-            attachments: [{'filename': 'contrarecibo-folio-'+req.body.folio+ext, 'content': data}]
+            attachments: [{'filename': 'contrarecibo-folio-'+folio+ext, 'content': data}]
           };
         mailer.sendEmail( mailOptions );
     })

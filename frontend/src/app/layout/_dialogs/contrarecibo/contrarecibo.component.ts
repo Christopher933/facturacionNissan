@@ -19,6 +19,7 @@ export class ContrareciboComponent implements OnInit {
   perfil_info;
   invoices_pending:Array<any> = [];
   array_invoices:Array<any>= [];
+  array_titles: Array<any> = ["FOLIO","MONTO", "EMPRESA", "SUCURSAL", "EMISION"]
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -47,25 +48,28 @@ export class ContrareciboComponent implements OnInit {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
-        text: 'Favor de ingresar una fecha promesa de pago'
+        text: 'Favor de ingresar todos los datos'
       })
       return;
     }
     this.is_loading =true;
-    let t = this.info_factura.shipping_date
-    let shipping_date=t.split("T");
     let pd = this.info_factura.payment_deadline;
     let payment_deadline = pd.split("T");
+    this.array_invoices.push(this.info_factura)
 
     let data = {
-      ...this.form_contrarecibo.value,
+      promise_date: this.form_contrarecibo.controls.promise_date.value,
       company_name : this.info_factura.company_name,
-      folio: this.info_factura.folio,
-      shipping_date: shipping_date[0],
+      rfc: this.info_factura.rfc,
+      invoices : this.array_invoices,
       id_invoice : this.info_factura.id_invoice,
-      mount : this.info_factura.mount,
-      email: this.perfil_info.email,
+      email: this.info_factura.email,
       payment_deadline: payment_deadline[0],
+      created_by: this.request_service.id_user,
+      full_name: `${this.request_service.first_name} ${this.request_service.last_name_1}`,
+      id_user: this.info_factura.id_user,
+      name_branch: this.info_factura.name_branch,
+      name_enterprise: this.info_factura.name_enterprise,
     }
     this.request_service.sendContrarecibo(data)
     .subscribe(res =>{
@@ -128,6 +132,7 @@ export class ContrareciboComponent implements OnInit {
     }
     this.request_service.getInvoicesInProgress(data)
     .subscribe(res=>{
+      console.log(res)
       if(res.status){
         this.invoices_pending = res.result;
       }

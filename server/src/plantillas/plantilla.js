@@ -17,14 +17,44 @@ exports.contrarecibo = `
     </div>
   </div>
   <div style="display: flex; flex-direction: column;">
-      <div style="width: 300px; justify-content: space-evenly; border: 1px solid black; height: 40px;text-align: center; padding-top: 10px;">
-          <span style="font-weight: 600;margin-right: 55px;">
-            Fecha de recibido
-          </span>
-          <span>
-            {{ shipping_date }}
-          </span>
-      </div>
+        <table>
+        <tr>
+            <td>
+                <span style="font-weight: 600;">
+                    Fecha de recibido:
+                </span>
+                <span style = "margin-right: 55px;">
+                    {{ shipping_date }}
+                </span>
+            </td>
+            <td>
+                <span style="font-weight: 600;">
+                    Realizado por: 
+                </span>
+                <span style = "margin-right: 55px;">
+                    {{ created_by }}
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span style="font-weight: 600;">
+                    No. Contrarecibo:
+                </span>
+                <span style = "margin-right: 55px;">
+                    {{ id_contrarecibo }}
+                </span>
+            </td>
+            <td>
+                <span style="font-weight: 600;">
+                    Promesa de pago:
+                </span>
+                <span>
+                    {{ promise_date }}
+                </span>
+            </td>
+        </tr>
+        </table>
       <div style="margin-top: 20px; border: 1px solid black;">
           <table style="width: 100%; height: 200px;">
               <thead>
@@ -39,42 +69,18 @@ exports.contrarecibo = `
                         Folio
                     </td>
                     <td style="font-weight: 600;">
-                        Proveedor
+                        Sucursal
                     </td>
                     <td style="font-weight: 600;">
-                        F. Factura
+                        Limite Pago
                     </td>
                     <td style="font-weight: 600;">
                         Importe
                     </td>
-                    <td style="font-weight: 600;">
-                        F. de Pago
-                    </td>
                 </tr>
               </thead>
               <tbody>
-                  <tr style=" padding: 10px 20px;
-                  display: grid;
-                  gap: 10px;
-                  grid-template-columns: repeat(5,1fr);
-                  align-items: center;
-                  border-radius: 4px;">
-                      <td>
-                          {{ folio }}
-                      </td>
-                      <td>
-                          {{ company_name }}
-                      </td>
-                      <td>
-                          {{ payment_deadline }}
-                      </td>
-                      <td>
-                          {{ mount }}
-                      </td>
-                      <td>
-                          {{ promise_date }}
-                      </td>
-                  </tr>
+                  {{ list_invoices }}
                   <tr style=" padding: 10px 20px;
                   display: grid;
                   gap: 10px;
@@ -92,7 +98,7 @@ exports.contrarecibo = `
                           Total Proveedor
                       </td>
                       <td>
-                          {{ mount }}
+                          {{ total }}
                       </td>
                       <td>
                       </td>

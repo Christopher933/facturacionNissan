@@ -1,110 +1,107 @@
-<!doctype html>
-<html lang="es" style="padding: 0 40px;">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-</head>
-<style>
-</style>    
-<div id="pageHeader" style="border-bottom: 1px solid #ddd; padding-bottom: 5px;">
-    <img src="" width="100px" src="./assets/images/nissan.png" >
-    <div  style="border: 1px solid black; width: 100%; height: 100px;background: #dae0e7;text-align: center;">
-        <div style="margin-bottom: 20px;margin-top: 20px;">Comercio Automotriz, S.A DE C.V</div>
-        <div>Xavier Villaurrutia No. 9950, Zona Rio, Tijuana, RFC: CAU841124QA9</div>
-    </div>
-  </div>
-  <div style="display: flex; flex-direction: column;">
-      <div style="width: 300px; justify-content: space-evenly; border: 1px solid black; height: 40px;text-align: center; padding-top: 10px;">
-          <span style="font-weight: 600;margin-right: 55px;">
-            Fecha de recibido
-          </span>
-          <span>
-            fecha
-          </span>
-      </div>
-      <div style="margin-top: 20px; border: 1px solid black;">
-          <table style="width: 100%; height: 200px;">
-              <thead>
-                <tr  style=" padding: 10px 20px;
-                display: grid;
-                gap: 10px;
-                grid-template-columns: repeat(5,1fr);
-                align-items: center;
-                border-radius: 4px;
-                font-weight: 600px;">
-                    <td style="font-weight: 600;">
-                        vacio
-                    </td>
-                    <td style="font-weight: 600;">
-                        Proveedor
-                    </td>
-                    <td style="font-weight: 600;">
-                        F. Factura
-                    </td>
-                    <td style="font-weight: 600;">
-                        Importe
-                    </td>
-                    <td style="font-weight: 600;">
-                        F. de Pago
-                    </td>
-                </tr>
-              </thead>
-              <tbody>
-                  <tr style=" padding: 10px 20px;
-                  display: grid;
-                  gap: 10px;
-                  grid-template-columns: repeat(5,1fr);
-                  align-items: center;
-                  border-radius: 4px;">
-                      <td>
-                          vacio
-                      </td>
-                      <td>
-                          vacio
-                      </td>
-                      <td>
-                          vacio
-                      </td>
-                      <td>
-                          vacio
-                      </td>
-                      <td>
-                          vacio
-                      </td>
-                  </tr>
-                  <tr style=" padding: 10px 20px;
-                  display: grid;
-                  gap: 10px;
-                  grid-template-columns: repeat(1,2.08fr) repeat(3,1fr);
-                  align-items: center;
-                  border-radius: 4px;
-                  margin-top: 70px;">
-                    <td>
+<div class="row row--mb-10">
+    <form class="form">
+        <div class="col col--flex col--flex-align-center">
+            <div class="wrap-search">
+                <input
+                    #search_input
+                    class="input-search"
+                    placeholder="Search by any order parameter..."
+                    type="text" />
+            </div>
+            <div class="wrap-filters">
+                <!-- creation date -->
+                
+                <!-- status -->
+                <input class="filter" 
+                #input_date
+                type="text" placeholder="Date" 
+                onfocus="(this.type='date')" 
+                (change)="getNotificationsByDate($event.target.value)"
+                >
+                <span class="material-icons-outlined date-icon"
+                    *ngIf="is_show_clear_icon"
+                    (click)="clearDateFilter()"
+                    >
+                        clear
+                </span>
+            </div>
+        </div>
+    </form>
+</div>
 
-                    </td>
-                    <td>
-
-                    </td>
-                      <td style="display: flex; justify-content: center; font-weight: 600;">
-                          Total Proveedor
-                      </td>
-                      <td>
-                          vacio
-                      </td>
-                      <td>
-                      </td>
-                      <td>
-                      </td>
-                  </tr>
-              </tbody>
-          </table>
-      </div>
-      <div style="width: 100%; margin-top: 20px; text-align: center;" >
-          Facturas a revision y pago <b>Martes de 4:00 PM a 6:00 PM</b>
-      </div>
-  </div>
-  <div id="pageFooter" style="border-top: 1px solid #ddd; padding-top: 5px;">
-    <p style="color: #666; width: 70%; margin: 0; padding-bottom: 5px; text-align: let; font-family: sans-serif; font-size: .65em; float: left;"></p>
-    <p style="color: #666; margin: 0; padding-bottom: 5px; text-align: right; font-family: sans-serif; font-size: .65em">Página </p>
-  </div>
-</html>
+<div class="page__body">
+    <table class="table">
+        <thead class="table__thead">
+            <tr class="table__tr">
+                <th class="table__th" *ngFor="let title of head_title">
+                    <span class="sort-text">
+                        {{ title }}
+                        <span class="material-icons-outlined">
+                            arrow_drop_down
+                        </span>
+                    </span>
+                </th>
+            </tr>
+        </thead>
+        <div class="table__tbody row--flex row--flex-align-center row--flex-justify-center" *ngIf="is_loading">
+            <app-spinner
+            width="50"
+            height="50"
+            color="#0090f3">
+        </app-spinner>
+        </div>
+        <tbody class="table__tbody" *ngIf="is_loading==false">
+            <tr class="table__tr table__tr--tbody" *ngFor= "let notification of notifications" 
+            (click) = "readNotification(notification)"
+            [class.is_read] = "notification.is_read == 1"
+            >
+                <td class="table__td">
+                <span
+                class="text text--bold status">
+                    <span>{{ notification.title_notification }}</span>
+                </span>
+                </td>
+                <td class="table__td">
+                    <span> {{ notification.message_notification }} </span>
+                </td>
+                <td class="table__td">
+                    <span>{{ notification.date_notification | date:'mediumDate'}}</span>
+                </td>
+            </tr>
+        </tbody>
+        <tfoot class="table__tfoot">
+            <div class="row row--flex row--flex-space-between">
+                <div class="col col--flex col--flex-align-center">
+                    <p class="text text--color-gray text--mr-10">
+                        ALL
+                        <span class="qty-box">
+                            {{ total_count }}
+                        </span>
+                    </p>
+                    <select name="" id="" (change)= "changeLimit($event.target.value)">
+                        <option value="10" selected>10</option>
+                        <option value="20" >20</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                        <option value="">ALL</option>
+                    </select>
+                </div>
+                <div class="col col--flex col--flex-align-center">
+                    <div class="col col--flex col--flex-align-center text text--color-gray">
+                        <div class="previous" (click)="goPrevious()">
+                            <img src="./assets/icons_dashboard/chevron-left.svg" >
+                            <span>Previous</span>
+                        </div>
+                        <input #input_number type="number" min="1" class="actual_page"  [(ngModel)]="page">
+                        <span>/</span>
+                        <span class="total_pages">{{ total_pages }}</span>
+                        <div  class="next" (click)="goNext()"> 
+                            <span>Next</span>
+                            <img src="./assets/icons_dashboard/chevron-right.svg">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </tfoot>
+    </table>
+</div>

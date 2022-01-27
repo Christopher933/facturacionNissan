@@ -5,8 +5,10 @@ import { EmpresasComponent } from './pages/empresas/empresas.component';
 import { EstatusFacturaComponent } from './pages/estatus-factura/estatus-factura.component';
 import { NotificacionesComponent } from './pages/notificaciones/notificaciones.component';
 import { PerfilComponent } from './pages/perfil/perfil.component';
+import { StatusContrareciboComponent } from './pages/status-contrarecibo/status-contrarecibo.component';
 import { SubirFacturaComponent } from './pages/subir-factura/subir-factura.component';
 import { UsuarioComponent } from './pages/usuario/usuario.component';
+import { ContrareciboComponent } from './_dialogs/contrarecibo/contrarecibo.component';
 
 const routes: Routes = [
   {
@@ -41,6 +43,10 @@ const routes: Routes = [
       {
         path:"empresas",
         component: EmpresasComponent,
+      },
+      {
+        path:"contrarecibo",
+        component: StatusContrareciboComponent
       },
     ]
   }

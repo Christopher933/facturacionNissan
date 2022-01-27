@@ -96,6 +96,7 @@
     width: 140px;
     padding: 5px 0;
     cursor: pointer;
+    position: relative;
   }
 
   .select_submenu{
@@ -106,4 +107,12 @@
 
   .table__tr--documents {
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  }
+
+  .warning_icon{
+    color: red;
+    position: absolute;
+    right: -3px;
+    top: -3px;
+    font-size: 20px;
   }

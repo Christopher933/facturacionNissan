@@ -79,12 +79,6 @@ empresa.getAllEnterprises = async(req,res)=>{
 
 empresa.getAllBranchs = async(req,res)=>{
     
-    let verify_user = await verifyUser(req);
-
-    if(verify_user == false || verify_user.id_role > 2 || verify_user.status == 0){
-        res.send({ status: false, message: "Error de Conexion" })
-        return;
-    }
     let all_enterprises = await getBranchs(req)
 
     if(all_enterprises == false){

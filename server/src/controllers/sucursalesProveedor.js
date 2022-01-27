@@ -67,76 +67,30 @@ async function getBranchs(req){
     return new Promise((resolve,reject)=>{
         let limit = req.body.limit;
         let page = limit * (req.body.page - 1)
-        let query = `
-        select 
-        id_provider_branch,
-        name_branch,
-        street,
-        colony,
-        city,
-        state,
-        zip_code,
-        provider_branch.id_provider,
-        provider_branch.phone,
-        email,
-        company_name,
-        rfc,
-        provider_branch.is_active as is_active_branch
-        from provider_branch inner join provider_information on
-        provider_branch.id_provider = provider_information.id_provider
-        where provider_branch.is_active like '%${req.body.is_active}%'
-        and
-        (name_branch like '%${req.body.parameter}%'
-        or city Like '%${req.body.parameter}%'
-        or colony LIKE '%${req.body.parameter}%'
-        or provider_branch.email LIKE '%${req.body.parameter}%')
-        order by name_branch
-        limit ${page},${limit}
-        `
+        let query = `call proc_branchs_provider (?, ?, ?, ?, ?)`
     
-        connection.query(query, (err, row)=>{
+        connection.query(query,[req.body.id_user,req.body.is_active, req.body.parameter, page, limit ], (err, row)=>{
             if(err){
                 console.log(err)
                 resolve(false)
             }else{
-                resolve(row)
-            }
-        })
-    })
-}
-
-async function verifyUser(req){
-    return new Promise((resolve,reject)=>{
-        let query = `select * from user where id_user = ?`
-        connection.query(query,[req.body.id_user],(err,row)=>{
-            if(err){
-                console.log(err)
-                resolve(false)
-            }else{
-                console.log("es el",row[0])
                 resolve(row[0])
             }
         })
     })
 }
 
+
 async function countRowsBranchs(req){
     return new Promise ((resolve, reject)=>{
-        let query = `select count(*) as total from provider_branch inner join provider_information on
-        provider_branch.id_provider = provider_information.id_provider
-        where provider_branch.is_active like '%${req.body.is_active}%'
-        and
-        (name_branch like '%${req.body.parameter}%'
-        or city Like '%${req.body.parameter}%'
-        or colony LIKE '%${req.body.parameter}%'
-        or provider_branch.email LIKE '%${req.body.parameter}%')`
+        let query = `call proc_count_branchs_provider(?,?,?)`
 
-        connection.query(query,(err, row)=>{
+        connection.query(query,[req.body.id_user,req.body.is_active, req.body.parameter],(err, row)=>{
             if(err){
                 console.log(err)
                 resolve(false)
             }else{
-                resolve(row[0].total)
+                resolve(row[0][0].total)
             }
         })
     })

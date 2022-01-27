@@ -1,0 +1,115 @@
+<div class="dialog">
+    <div class="dialog__header">
+      <h2 class="dialog__title">
+        Informacion
+      </h2>
+      <div (click)="closeDialog()" class="close_dialog">
+        <span class="material-icons-outlined pointer">
+          clear
+        </span>
+      </div>
+    </div>
+    <div class="dialog__body">
+      <div class="top-bar">
+        <div class="col">
+          <p class="text text--sm text--color-gray">
+            Folio
+            <span class="text text--semi-bold text--block">
+              {{ info_contrarecibo.id_contrarecibo }}
+            </span>
+          </p>
+        </div>
+        <div class="col" >
+          <p class="text text--sm text--color-gray">
+            Promesa de pago
+            <span class="text text--semi-bold text--block">
+              {{ info_contrarecibo.promise_date | date: "mediumDate"}}
+            </span>
+          </p>
+        </div>
+        <div class="col">
+          <p class="text text--sm text--color-gray">
+            Proveedor
+            <span class="text text--semi-bold text--block">
+              {{ info_contrarecibo.company_name }}
+            </span>
+          </p>
+        </div>
+        <div class="col">
+          <div class="text text--sm text--color-gray">
+            Status
+            <div class="text text--semi-bold text--block">
+              <span  class="text text--bold " 
+              [ngClass]="{
+              'status_orange': info_contrarecibo.id_status_contrarecibo == 0,
+              'status_green': info_contrarecibo.id_status_contrarecibo == 1
+          }">
+                <span *ngIf="info_contrarecibo.id_status_contrarecibo == 0">Pendiente</span>
+                <span *ngIf="info_contrarecibo.id_status_contrarecibo == 1">Pagada</span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <form class="form" >
+          <!-- PDF APLICATION-->
+        <div class="body_container">
+
+          <div class="section">
+            <p class="section__title">
+                Contrarecibo
+            </p>
+            <div class="pdf_aplication_container">
+                <div>
+                  <div class="pdf_container">
+                    <div class=img_pdf>
+                        <img src="./assets/icons/pdf.png">
+                        <span>Contrarecibo</span>
+                    </div>
+                    <div class="download_container" (click)="downloadFile(info_contrarecibo.path_contrarecibo, 'Contrarecibo', info_contrarecibo.id_contrarecibo)">
+                        <span class="material-icons-outlined">
+                            file_download
+                        </span>
+                      </div>
+                </div>
+                </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <p class="section__title">
+                Factura(s)
+            </p>
+            <div class="pdf_aplication_container" *ngFor = "let invoice of invoices">
+                <div>
+                  <div class="pdf_container">
+                    <div class=img_pdf>
+                        <img src="./assets/icons/pdf.png">
+                        <span>Folio :</span>
+                        <span>{{ invoice.folio }}</span>
+                    </div>
+                    <div class="download_container" (click)="downloadFile(invoice.path_pdf, 'Factura', invoice.folio)">
+                        <span class="material-icons-outlined">
+                            file_download
+                        </span>
+                      </div>
+                </div>
+                </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="wrap-buttons">
+            <button type="submit"
+              class="btn btn--primary"  (click)="openDialogPayment()">
+              Enviar pago
+            </button>
+        </div>
+      </form>
+    </div>
+</div>
+
+
+
+

@@ -8,6 +8,7 @@ import { RequestService } from 'src/app/shared/services/request.service';
 import { ContrareciboComponent } from '../../_dialogs/contrarecibo/contrarecibo.component';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, pluck } from 'rxjs/operators';
+import { EmpresaService } from 'src/app/shared/services/empresa.service';
 
 
 @Component({
@@ -38,6 +39,7 @@ export class EstatusFacturaComponent implements OnInit {
   facturas = [];
   perfil = [];
   monthly_compliance: any;
+  branchs: Array<any>
 
   
 
@@ -45,6 +47,7 @@ export class EstatusFacturaComponent implements OnInit {
     private dialog: MatDialog,
     public router: Router,
     public request_service: RequestService,
+    public empresa_service: EmpresaService
   ) {
     /* this.user = JSON.parse(localStorage.getItem('currentUser') || ""); */
   }
@@ -52,6 +55,7 @@ export class EstatusFacturaComponent implements OnInit {
   ngOnInit(): void {
     this.getInvoicesByParameter()
     this.getFacturas();
+    this.getBranchs();
     
     
     this.admin_status=[
@@ -66,6 +70,10 @@ export class EstatusFacturaComponent implements OnInit {
       {
         id_status: 3,
         value: "Pagada"
+      },
+      {
+        id_status: 4,
+        value: "Rechazada"
       },
     ]
     
@@ -84,8 +92,8 @@ export class EstatusFacturaComponent implements OnInit {
 
   openDialog(i){
     let dialog= this.dialog.open(FacturaInformacionComponent,{
-      width: "600px",
-      height: "650px",
+      width: "700px",
+      height: "800px",
       data : {
         info_factura: this.facturas[i],
       }
@@ -124,11 +132,18 @@ export class EstatusFacturaComponent implements OnInit {
     this.getFacturas();
   }
 
+  getInvoicesByBranch(event){
+    this.resetPage();
+    this.is_loading = true;
+    this.request_service.filter_parameters.id_branch = event;
+    this.getFacturas();
+  }
+
   clearDateFilter(){
     this.resetPage();
-    this.input_date.nativeElement.value="";
+    this.input_date.nativeElement.value=null;
     this.is_show_clear_icon=false;
-    this.request_service.filter_parameters.issue_date = ""
+    this.request_service.filter_parameters.issue_date = null
     this.getFacturas();
   }
 
@@ -216,6 +231,13 @@ export class EstatusFacturaComponent implements OnInit {
       this.request_service.filter_parameters.limit = value;
       this.resetPage();
       this.getFacturas();
+    }
+
+    getBranchs(){
+      this.empresa_service.getAllBranchs()
+      .subscribe(res =>{
+        this.branchs = res.result;
+      })
     }
 
 }

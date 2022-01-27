@@ -20,6 +20,33 @@
                 type= "text"
                 class="form_input">
             </div>
+            <div class="form_group" *ngIf = "info_user.id_role != 3">
+                <div class="label_text">
+                    Nombre(s)
+                </div>
+                <input
+                formControlName = "first_name"
+                type= "text"
+                class="form_input">
+            </div>
+            <div class="form_group" *ngIf = "info_user.id_role != 3">
+                <div class="label_text">
+                    Primer apellido
+                </div>
+                <input
+                formControlName = "last_name_1"
+                type= "text"
+                class="form_input">
+            </div>
+            <div class="form_group" *ngIf = "info_user.id_role != 3">
+                <div class="label_text">
+                    Segundo Apellido
+                </div>
+                <input
+                formControlName = "last_name_2"
+                type= "text"
+                class="form_input">
+            </div>
             <div class="form_group">
                 <div class="label_text">
                     Correo

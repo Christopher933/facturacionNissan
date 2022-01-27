@@ -36,6 +36,7 @@
         (change) = getBranch($event.target.value)
         [class.error] = "f.id_enterprise.errors && is_submitted"
         name="" id="" class="actual_input" formControlName = "id_enterprise" placeholder="Selecciona empresa">
+            <option value="" selected >Selecciona empresa</option>
             <option value="{{enterprise.id_enterprise}}" *ngFor = "let enterprise of enterprises">{{enterprise.name_enterprise}}</option>
         </select>
     </div>
@@ -46,6 +47,7 @@
         <select 
         [class.error] = "f.id_branch.errors && is_submitted"
         name="" id="" class="actual_input" formControlName = "id_branch" placeholder="Selecciona Sucursal">
+        <option value="" selected >Selecciona Sucursal</option>
             <option value="{{branch.id_branch}}" *ngFor = "let branch of branchs">{{branch.name_branch}}</option>
         </select>
     </div>

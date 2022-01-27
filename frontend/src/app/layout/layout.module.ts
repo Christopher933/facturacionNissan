@@ -23,6 +23,10 @@ import { AddBranchComponent } from './_dialogs/add-branch/add-branch.component';
 import { AddBranchProviderComponent } from './_dialogs/add-branch-provider/add-branch-provider.component';
 import { AddMonthlyComplianceComponent } from './_dialogs/add-monthly-compliance/add-monthly-compliance.component';
 import { AddUserComponent } from './_dialogs/add-user/add-user.component';
+import { StatusContrareciboComponent } from './pages/status-contrarecibo/status-contrarecibo.component';
+import { ContrareciboInformationComponent } from './_dialogs/contrarecibo-information/contrarecibo-information.component';
+import { RejectNoteComponent } from './_dialogs/reject-note/reject-note.component';
+import { NotesComponent } from './_dialogs/notes/notes.component';
 
 
 
@@ -46,6 +50,10 @@ import { AddUserComponent } from './_dialogs/add-user/add-user.component';
     AddBranchProviderComponent,
     AddMonthlyComplianceComponent,
     AddUserComponent,
+    StatusContrareciboComponent,
+    ContrareciboInformationComponent,
+    RejectNoteComponent,
+    NotesComponent,
   ],
   imports: [
     CommonModule,

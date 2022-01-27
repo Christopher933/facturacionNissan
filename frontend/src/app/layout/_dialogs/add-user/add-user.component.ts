@@ -34,7 +34,10 @@ export class AddUserComponent implements OnInit {
       email: ["", Validators.required],
       status: ["1", Validators.required],
       id_branch: ["", Validators.required],
-      id_enterprise: ["", Validators.required]
+      id_enterprise: ["", Validators.required],
+      first_name : ["", Validators.required],
+      last_name_1 : ["", Validators.required],
+      last_name_2 : ["", Validators.required],
     })
 
     this.form_provider = this.form_builder.group({
@@ -66,7 +69,7 @@ export class AddUserComponent implements OnInit {
     if(form_user.invalid){return}
     this.is_loading = true;
     let data = {
-      ...form_user,
+      ...form_user.value,
       id_user: this.request_service.id_user
     }
     this.request_service.insertUser(data)
@@ -110,6 +113,7 @@ export class AddUserComponent implements OnInit {
 
   goBack(){
     this.section = 0;
+    this.is_submitted = false;
     this.form_admin.reset();
     this.form_provider.reset();
   }
