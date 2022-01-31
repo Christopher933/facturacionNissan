@@ -45,6 +45,7 @@ export class AddMonthlyComplianceComponent implements OnInit {
     public form_builder: FormBuilder,
     public request_service: RequestService
   ) {
+    console.log(data)
     this.monthly_compliance = data;
     this.form_compliance = this.form_builder.group({
       id_user : this.request_service.id_user,
@@ -54,6 +55,10 @@ export class AddMonthlyComplianceComponent implements OnInit {
    }
 
   ngOnInit(): void {
+  }
+
+  openLink(url){
+    window.open(url,"_blank")
   }
 
   insertFile(event){

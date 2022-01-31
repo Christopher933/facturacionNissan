@@ -192,6 +192,11 @@
         <div class="wrap-buttons">
           <div class="row row--flex row--flex-end">
             <button type="submit"
+            *ngIf = "notes.length > 0 "
+            class="btn btn--primary" (click)="openDialogNotes()">
+              Avisos
+            </button>
+            <button type="submit"
             *ngIf = "info_factura.id_status == 1 || info_factura.id_status == 4"
             class="btn btn--primary" (click)="openDialogReject()">
               Rechazar
@@ -199,10 +204,6 @@
             <button type="submit"
             class="btn btn--primary"  (click)="openDialogContrarecibo()">
               Contrarecibo
-            </button>
-            <button type="submit"
-            class="btn btn--primary">
-              Cerrar
             </button>
           </div>
         </div>

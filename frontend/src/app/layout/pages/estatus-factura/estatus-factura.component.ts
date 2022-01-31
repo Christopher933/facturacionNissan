@@ -154,7 +154,6 @@ export class EstatusFacturaComponent implements OnInit {
   }
 
   getInvoicesByParameter() {
-    this.resetPage();
     fromEvent(this.search_input.nativeElement, 'keyup')
       .pipe(
         pluck('target', 'value'),
@@ -166,6 +165,7 @@ export class EstatusFacturaComponent implements OnInit {
         }else{
           this.request_service.filter_parameters.parameter = query_search;
         }
+        this.resetPage();
         this.getFacturas();
       });
     }
@@ -224,7 +224,7 @@ export class EstatusFacturaComponent implements OnInit {
 
     resetPage(){
       this.page=1;
-      this.request_service.filter_parameters.page=this.page;
+      this.request_service.filter_parameters.page = 1;
     }
 
     changeLimit(value){

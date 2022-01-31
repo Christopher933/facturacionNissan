@@ -175,6 +175,18 @@ export class RequestService {
     return this.http.post(this.api + "/rejectInvoice", data)
   }
 
+  getNotes(data): Observable<any>{
+    return this.http.post(this.api + "/getNotes",data)
+  }
+
+  updateInfoInvoice(data): Observable<any>{
+    return this.http.post(this.api + "/updateInfoInvoice",data)
+  }
+
+  updateFilesInvoice(data):Observable<any>{
+    return this.http.post(this.api + "/updateFilesInvoice", data)
+  }
+
   logout() {
     localStorage.removeItem('session');
     window.location.reload();

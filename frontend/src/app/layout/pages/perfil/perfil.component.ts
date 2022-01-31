@@ -218,7 +218,6 @@ export class PerfilComponent implements OnInit ,AfterViewInit{
   }
 
   getBranchsByParameter() {
-    this.resetPage();
     fromEvent(this.search_input.nativeElement, 'keyup')
       .pipe(
         pluck('target', 'value'),
@@ -230,6 +229,7 @@ export class PerfilComponent implements OnInit ,AfterViewInit{
         }else{
           this.empresa_service.filter_branchs_provider.parameter = query_search;
         }
+        this.resetPage();
         this.getBranchs();
       });
     }

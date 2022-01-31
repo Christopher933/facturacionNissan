@@ -75,8 +75,6 @@ export class SubirFacturaComponent implements OnInit {
       this.xml_name = event.name
       this.form_factura.get("xml").setValue(true);
     }
-
-    console.log(this.archives)
   }
 
 
@@ -171,7 +169,6 @@ export class SubirFacturaComponent implements OnInit {
   getEnterprises(){
     this.empresa_service.getEnterprises()
     .subscribe(res=>{
-      console.log("enterprise",res)
       this.enterprises = res.result;
     })
   }

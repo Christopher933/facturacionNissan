@@ -15,7 +15,6 @@ let file_ext = ''
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        console.log(file)
         for(const [clave, valor] of Object.entries(req.body)){
             if(clave == 'type_file'){
                 type_file = valor;
@@ -26,31 +25,31 @@ const storage = multer.diskStorage({
 
 
         if(type_file == "opinion_cumplimiento"){
-            return cb(null, path.join(__dirname,"../public/opinion_cumplimiento"))
+            return cb(null, path.join(__dirname,`../public/opinion_cumplimiento/${(new Date()).getFullYear()}`))
         }
         
         if(type_file == "CuentasBancarias"){
-            return cb(null, path.join(__dirname,"../public/cuentas_bancarias"))
+            return cb(null, path.join(__dirname,`../public/cuentas_bancarias/${(new Date()).getFullYear()}`))
         }
 
         if(type_file == "ActaConstitutiva"){
-            return cb(null, path.join(__dirname,"../public/acta_constitutiva"))
+            return cb(null, path.join(__dirname,`../public/acta_constitutiva/${(new Date()).getFullYear()}`))
         }
 
         if(type_file == "ComprobanteDeDomicilio"){
-            return cb(null, path.join(__dirname,"../public/comprobante_domicilio"))
+            return cb(null, path.join(__dirname,`../public/comprobante_domicilio/${(new Date()).getFullYear()}`))
         }
 
         if(type_file == "INE"){
-            return cb(null, path.join(__dirname,"../public/INE"))
+            return cb(null, path.join(__dirname,`../public/INE/${(new Date()).getFullYear()}`))
         }
 
         if(type_file == "CedulaFiscal"){
-            return cb(null, path.join(__dirname,"../public/cedula_fiscal"))
+            return cb(null, path.join(__dirname,`../public/cedula_fiscal/${(new Date()).getFullYear()}`))
         }
 
         if(type_file == "DatosRepresentanteLegal"){
-            return cb(null, path.join(__dirname,"../public/datos_representante_legal"))
+            return cb(null, path.join(__dirname,`../public/datos_representante_legal/${(new Date()).getFullYear()}`))
         }
     },
     filename: function (req, file, cb) {

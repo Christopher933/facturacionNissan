@@ -62,6 +62,7 @@ import { NotesComponent } from './_dialogs/notes/notes.component';
     ReactiveFormsModule,
     FormsModule,
     MatSnackBarModule,
+    SharedModule,
     NgMultiSelectDropDownModule.forRoot()
   ],
 })

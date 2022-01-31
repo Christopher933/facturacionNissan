@@ -5,6 +5,7 @@ import * as FileSaver from 'file-saver';
 import { ContrareciboComponent } from '../contrarecibo/contrarecibo.component';
 import { PaymentComponent } from '../payment/payment.component';
 import { RejectNoteComponent } from '../reject-note/reject-note.component';
+import { NotesComponent } from '../notes/notes.component';
 
 
 @Component({
@@ -15,7 +16,8 @@ import { RejectNoteComponent } from '../reject-note/reject-note.component';
 export class FacturaInformacionComponent implements OnInit {
 
   info_factura;
-  monthly_compliance =null;
+  monthly_compliance = null;
+  notes:Array<any> = [];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -30,6 +32,8 @@ export class FacturaInformacionComponent implements OnInit {
 
   ngOnInit(): void {
     this.getLastMonthlyCompliance();
+    this.getNotes();
+
   }
 
   closeDialog(){
@@ -39,7 +43,6 @@ export class FacturaInformacionComponent implements OnInit {
   downloadFile(path){
     this.request_service.downloadFile(path)
     .subscribe(data =>{
-      console.log("data",data)
       FileSaver.saveAs(data,this.info_factura.company_name + this.info_factura.folio);
     })
   }
@@ -109,6 +112,36 @@ export class FacturaInformacionComponent implements OnInit {
     dialog.afterClosed().subscribe(result =>{
       if(result){
         this.dialog_ref.close(true);
+      }
+    })
+  }
+
+  openDialogNotes(){
+    let dialog = this.dialog.open(NotesComponent, {
+      width: '700px',
+      height: '800px',
+      data: {
+        info_factura : this.info_factura,
+        notes: this.notes 
+      }
+    })
+
+    dialog.afterClosed().subscribe(result =>{
+      if(result){
+        this.dialog_ref.close(true);
+      }
+    })
+
+  }
+
+  getNotes(){
+    let data = {
+      id_invoice : this.info_factura.id_invoice
+    }
+    this.request_service.getNotes(data)
+    .subscribe(res=>{
+      if(res.status){
+        this.notes = res.result;
       }
     })
   }

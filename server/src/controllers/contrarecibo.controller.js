@@ -9,18 +9,27 @@ const notification = require('../controllers/notificationsController')
 
 
 exports.sendContrarecibo = async (req, res) =>{
-    console.log(req.body)
     let array_invoices = [];
     array_invoices = req.body.invoices;
     let file;
     var date =  new Date();
+    let year = date.getFullYear();
     var temp_string = date.toISOString();
     let format_date = temp_string.split("T");
-    let path_file = path.join(__dirname,"../public/contrarecibos/contrarecibo-"+Date.now()+".pdf")
+    let path_file = path.join(__dirname,`../public/contrarecibos/${year}/contrarecibo-${Date.now()}.pdf`);
     const {  promise_date,company_name, rfc, invoices, id_invoice, email,payment_deadline,created_by,full_name,
         id_user,
         name_branch,
         name_enterprise } = req.body;
+    
+    validate_invoices = await validateInvoicesForContrarecibo(array_invoices);
+
+    if(validate_invoices == false){
+        return res.send({ message: "Error de conexion", status: false })
+    }
+    if(validate_invoices == "no disponibles"){
+        return res.send({ message: "Una o mas facturas ya pertenecen a un contrarecibo", status: false })
+    }
 
     id_contrarecibo = await insertContrarecibo(path_file, req);
 
@@ -167,6 +176,29 @@ async function readFile(req,archivo){
         });
 }
 
+function validateInvoicesForContrarecibo(array_invoices){
+    return new Promise((resolve, reject)=>{
+        let all_values = "";
+        array_invoices.forEach(item=>{
+            all_values += `${item.id_invoice},`
+        })
+        let values = all_values.slice(0, -1);
+        let query =`select * from invoice where invoice.id_invoice in (${values}) and invoice.id_contrarecibo is not null`
+        connection.query(query,(err, row)=>{
+            if(err){
+                console.log(err)
+                resolve(false)
+            }else{
+                if(row.length > 0){
+                    resolve("no disponibles")
+                }else{
+                    resolve(true)
+                }
+            }
+        })
+    })
+}
+
 async function insertContrarecibo(file, req){
     return new Promise((resolve,reject)=>{
         let query = "call proc_insert_contrarecibo(?, ?, ?,?,?,?, ?)"
@@ -174,11 +206,9 @@ async function insertContrarecibo(file, req){
 
         connection.query(query,[promise_date,file,created_by, id_user, name_branch, name_enterprise, full_name],(err,row)=>{
             if(err){
-                console.log("aaaaaaaaaaaaaaaaaaaaaaaaaa",row)
                 console.log(err);
                 resolve(false)
             }else{
-                console.log("aaaaaaaaaaaaaaaaaaaaaaaaaa",row[0])
                 resolve(row[0][0].id)
             }
         })
@@ -187,17 +217,19 @@ async function insertContrarecibo(file, req){
 
 async function insertIdContrareciboInvoice(id_contrarecibo, array_invoices){
     return new Promise((resolve,reject)=>{
-        let query = "call proc_insert_id_contrarecibo_invoice(?,?)"
-        array_invoices.forEach((element, index) =>{
-            connection.query(query,[id_contrarecibo, element.id_invoice],(err,row)=>{
-                if(err){
-                    console.log(err)
-                    resolve(false)
-                }
-                if(index == array_invoices.length - 1){
-                    resolve(true)
-                }
-            })
+        let all_values = "";
+        array_invoices.forEach((element) =>{
+            all_values += `${element.id_invoice},`
+        })
+        let values = all_values.slice(0, -1);
+        let query = `UPDATE invoice set invoice.id_contrarecibo = ?, id_status = 2 where invoice.id_invoice in (${values});`
+        connection.query(query,[id_contrarecibo],(err,row)=>{
+            if(err){
+                console.log(err)
+                resolve(false)
+            }else{
+                resolve(true)
+            }
         })
     })
 }
@@ -271,6 +303,7 @@ exports.getInvoicesByContrarecibo = (req, res)=>{
         }
     })
 }
+
 
 function setNotification(title_notification, full_name, id_contrarecibo, name_enterprise, name_branch){
     let data = {

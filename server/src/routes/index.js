@@ -88,5 +88,11 @@ router.post("/getInvoicesByContrarecibo", contrarecibo.getInvoicesByContrarecibo
 
 router.post("/rejectInvoice", uploadController.rejectInvoice)
 
+router.post("/getNotes",uploadController.getNotes)
+
+router.post("/updateInfoInvoice", uploadController.updateInfoInvoice)
+
+router.post("/updateFilesInvoice",uploadController.upload, uploadController.updateFilesInvoice)
+
 
 module.exports = router;

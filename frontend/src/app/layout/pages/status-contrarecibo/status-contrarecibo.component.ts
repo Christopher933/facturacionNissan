@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
@@ -12,7 +12,7 @@ import { ContrareciboInformationComponent } from '../../_dialogs/contrarecibo-in
   templateUrl: './status-contrarecibo.component.html',
   styleUrls: ['./status-contrarecibo.component.scss']
 })
-export class StatusContrareciboComponent implements OnInit {
+export class StatusContrareciboComponent implements OnInit , OnDestroy{
 
   @ViewChild('search_input', { static: true }) search_input:any= ElementRef;
   @ViewChild('input_number', { static: true }) input_number:any= ElementRef;
@@ -70,6 +70,15 @@ export class StatusContrareciboComponent implements OnInit {
     };
   }
 
+  ngOnDestroy(): void {
+      this.request_service.filter_contrarecibo.id_status_contrarecibo="";
+      this.request_service.filter_contrarecibo.promise_date = null;
+      this.request_service.filter_contrarecibo.parameter = "";
+      this.request_service.filter_contrarecibo.page = 1;
+      this.request_service.filter_contrarecibo.limit = 10;
+      
+  }
+
   getAllContrarecibos(){
     this.request_service.getAllContrarecibo()
     .subscribe(res=>{
@@ -110,15 +119,21 @@ export class StatusContrareciboComponent implements OnInit {
   }
 
   openDialog(info_contrarecibo){
-    this.dialog.open(ContrareciboInformationComponent, {
+    let dialog = this.dialog.open(ContrareciboInformationComponent, {
       width: "700px",
       height: "800px",
       data : info_contrarecibo
     })
+
+    dialog.afterClosed().subscribe(res =>{
+      if( res == true){
+        this.getAllContrarecibos();
+      }
+    })
+
   }
 
   getContrarecibosByParameter() {
-    this.resetPage();
     fromEvent(this.search_input.nativeElement, 'keyup')
       .pipe(
         pluck('target', 'value'),
@@ -130,6 +145,7 @@ export class StatusContrareciboComponent implements OnInit {
         }else{
           this.request_service.filter_contrarecibo.parameter = query_search;
         }
+        this.resetPage();
         this.getAllContrarecibos();
       });
     }
@@ -187,7 +203,7 @@ export class StatusContrareciboComponent implements OnInit {
 
   resetPage(){
     this.page=1;
-    this.request_service.filter_contrarecibo.page=this.page;
+    this.request_service.filter_contrarecibo.page = 1;
   }
 
   changeLimit(value){

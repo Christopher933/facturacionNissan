@@ -42,10 +42,10 @@ export class NotificacionesComponent implements OnInit {
       this.getNotificationsByParameter();
     }, 500);
     this.getNotifications();
+    this.getNotificationsNoRead();
   }
 
   getNotificationsByParameter() {
-    this.resetPage();
     fromEvent(this.search_input.nativeElement, 'keyup')
       .pipe(
         pluck('target', 'value'),
@@ -57,6 +57,7 @@ export class NotificacionesComponent implements OnInit {
         }else{
           this.notifications_service.notifications_filter.parameter = query_search;
         }
+        this.resetPage();
         this.getNotifications();
       });
     }
@@ -157,6 +158,17 @@ export class NotificacionesComponent implements OnInit {
         this.notifications_service.no_read--;
         notification.is_read = 1 ;
       }
+    })
+  }
+
+  getNotificationsNoRead(){
+    let data = {
+      id_user : this.request_service.id_user
+    }
+
+    this.notifications_service.getNotificationsNoRead(data)
+    .subscribe(res =>{
+      this.notifications_service.no_read = res.total;
     })
   }
 

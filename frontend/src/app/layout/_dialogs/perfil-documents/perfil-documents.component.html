@@ -13,7 +13,7 @@
     <div class="card__body" [formGroup]= "form_file" >
         <div class="dialog_top">
             <div class="pdf_container" *ngIf = "file_info.path_file">
-                <a class=img_pdf target="_blank" href= "file_info.path_file">
+                <a class=img_pdf target="_blank" href= "{{file_info.path_file}}">
                     <img src="./assets/icons/pdf.png">
                     <span>{{ file_info.name }}</span>
                 </a>

@@ -192,7 +192,6 @@ export class UsuarioComponent implements OnInit, AfterViewInit {
   }
 
   getUsersByParameter() {
-    this.resetPage();
     fromEvent(this.search_input.nativeElement, 'keyup')
       .pipe(
         pluck('target', 'value'),
@@ -204,6 +203,7 @@ export class UsuarioComponent implements OnInit, AfterViewInit {
         }else{
           this.request_service.filter_users.parameter = query_search;
         }
+        this.resetPage();
         this.getAllUsers();
       });
     }

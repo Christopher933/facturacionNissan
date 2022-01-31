@@ -8,9 +8,10 @@ const multer = require('multer');
 const notification = require('../controllers/notificationsController')
 
 
+
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, path.join(__dirname,"../public/facturas"))
+        cb(null, path.join(__dirname,`../public/pagos/${(new Date()).getFullYear()}`))
     },
     filename: function (req, file, cb) {
         cb(null, `${Date.now()}-`+ file.originalname)
@@ -23,9 +24,6 @@ exports.upload = upload.array('archivo')
 
 exports.sendPago = async (req, res) =>{
     console.log(req.body)
-    let date = new Date();
-    var temp_string = date.toISOString();
-    let format_date = temp_string.split("T");
     let path_pdf = req.files[0].path;
     const { id_contrarecibo,id_user, created_by, email, company_name, rfc, full_name} = req.body
     
@@ -69,6 +67,9 @@ async function findPayment(id_payment){
     })
 }
 
+exports.reSendPago = (req,res)=>{
+
+}
 
 function sendEmail(email, file, folio){
     fs.readFile(file,(err,data)=>{

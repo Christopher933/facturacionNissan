@@ -87,6 +87,8 @@ export class ContrareciboComponent implements OnInit {
           title: 'Oops...',
           text: res.message
         })
+        this.array_invoices = [];
+        this.getInvoicesInProgress();
       }
     })
   }
@@ -132,7 +134,6 @@ export class ContrareciboComponent implements OnInit {
     }
     this.request_service.getInvoicesInProgress(data)
     .subscribe(res=>{
-      console.log(res)
       if(res.status){
         this.invoices_pending = res.result;
       }

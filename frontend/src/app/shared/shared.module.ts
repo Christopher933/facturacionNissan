@@ -4,6 +4,7 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
 import { NavigationBarComponent } from './components/navigation-bar/navigation-bar.component';
 import { HeaderMainComponent } from './components/header-main/header-main.component';
 import { RouterModule } from '@angular/router';
+import { SafePipe } from './pipes/safe.pipe';
 
 
 
@@ -11,7 +12,8 @@ import { RouterModule } from '@angular/router';
   declarations: [
     SpinnerComponent,
     NavigationBarComponent,
-    HeaderMainComponent
+    HeaderMainComponent,
+    SafePipe
   ],
   imports: [
     CommonModule,
@@ -21,6 +23,7 @@ import { RouterModule } from '@angular/router';
     SpinnerComponent,
     NavigationBarComponent,
     HeaderMainComponent,
+    SafePipe
   ]
 })
 export class SharedModule { }

@@ -23,10 +23,10 @@
         </div>
         <div class="dialog_top">
             <div class="pdf_container" *ngIf ="monthly_compliance && monthly_compliance.id_status_file != 2">
-                <a class=img_pdf target="_blank" href= "monthly_compliance.file_compliance_url">
+                <div class=img_pdf  (click)="openLink(monthly_compliance.file_compliance_url)">
                     <img src="./assets/icons/pdf.png">
                     <span>Opinion de Cumplimiento</span>
-                </a>
+                </div>
                 <div class="download_container" (click) = "downloadFile(monthly_compliance.file_compliance_url)">
                     <span class="material-icons-outlined">
                         file_download
